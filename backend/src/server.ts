@@ -6,6 +6,10 @@ import config from "./config";
 import cors from "cors";
 import { connect } from "./utils/db/setupDB";
 
+// import all routers
+import accountRouter from "./resources/account/account.router";
+import notificationRouter from "./resources/notification/notification.router";
+
 export const app = express();
 
 // configuration
@@ -16,6 +20,8 @@ app.use(urlencoded({ extended: true, limit: "50mb" }));
 app.use(morgan("dev"));
 
 // Lists of routers
+app.use("/api/v1/account", accountRouter);
+app.use("/api/v1/notification", notificationRouter);
 
 app.use((req, res) => {
   res.json({ data: "Hello World!" });
