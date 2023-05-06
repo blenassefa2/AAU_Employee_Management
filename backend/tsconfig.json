@@ -1,5 +1,19 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "*": [
+        "node_modules/*",
+        "src/types/*"
+      ],
+      "lodash": [
+        "node_modules/lodash"
+      ],
+      "dotenv": [
+        "node_modules/dotenv/lib/main.js"
+      ]
+    },
+
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
