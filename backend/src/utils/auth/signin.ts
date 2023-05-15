@@ -1,6 +1,7 @@
 import { Account } from "../../resources/account/account.model";
 import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
+
 export const login = (req: Request, res: Response, next: NextFunction) => {
   const email = req.query.email as string;
   const password = req.query.password as string;
@@ -34,33 +35,6 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
             };
           }
         });
-      }
-    })
-    .catch((error) => {
-      res.locals.json = {
-        statusCode: 500,
-        message: "error occured",
-      };
-      return next();
-    });
-};
-export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
-  const userId = req.params.id;
-
-  Account.deleteOne({ _id: userId })
-    .then((result) => {
-      if (result.deletedCount && result.deletedCount === 1) {
-        res.locals.json = {
-          statusCode: 200,
-          data: "User deleted successfully",
-        };
-        return next();
-      } else {
-        res.locals.json = {
-          statusCode: 404,
-          message: "user not found",
-        };
-        return next();
       }
     })
     .catch((error) => {

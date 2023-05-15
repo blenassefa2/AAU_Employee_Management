@@ -42,7 +42,7 @@ export const register = async (
   });
 };
 
-export const getUserById = (
+export const getAccountById = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -55,6 +55,72 @@ export const getUserById = (
         res.locals.json = {
           statusCode: 200,
           data: user,
+        };
+        return next();
+      } else {
+        res.locals.json = {
+          statusCode: 404,
+          message: "user not found",
+        };
+        return next();
+      }
+    })
+    .catch((error) => {
+      res.locals.json = {
+        statusCode: 500,
+        message: "error occured",
+      };
+      return next();
+    });
+};
+export const updateAccountById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { firstName, lastName, email, phoneNumber } = req.body;
+  const userId = req.params.id;
+  await Account.findByIdAndUpdate(
+    { _id: userId },
+    { firstName, lastName, email, phoneNumber }
+  )
+    .then((user) => {
+      if (user) {
+        res.locals.json = {
+          statusCode: 200,
+          data: user,
+        };
+        return next();
+      } else {
+        res.locals.json = {
+          statusCode: 404,
+          message: "user not found",
+        };
+        return next();
+      }
+    })
+    .catch((error) => {
+      res.locals.json = {
+        statusCode: 500,
+        message: "error occured",
+      };
+      return next();
+    });
+};
+
+export const deleteAccountById = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.params.id;
+
+  Account.deleteOne({ _id: userId })
+    .then((result) => {
+      if (result.deletedCount && result.deletedCount === 1) {
+        res.locals.json = {
+          statusCode: 200,
+          data: "User deleted successfully",
         };
         return next();
       } else {
