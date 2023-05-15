@@ -19,7 +19,7 @@ export const AccountSchema: mongoose.Schema<IAccountInterface> =
     },
     email: {
       type: String,
-      required: false,
+      required: true,
     },
     phone: {
       type: String,

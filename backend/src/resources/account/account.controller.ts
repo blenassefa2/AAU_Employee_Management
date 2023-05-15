@@ -2,85 +2,74 @@ import { Account } from "./account.model";
 import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
 
-export const register = (req: Request, res: Response, next: NextFunction) => {
-  bcrypt.hash(req.body.password, 10, function (err, hashedpass) {
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  await bcrypt.hash(req.body.password, 10, async function (err, hashedpass) {
     if (err) {
-      res.json({
-        error: err,
-      });
+      res.locals.json = {
+        statusCode: 500,
+        message: "couldn't hash password",
+      };
+      return next();
     }
-    let user = new Account({
-      name: req.body.name,
+    let user = await new Account({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       phone: req.body.phone,
-      password: req.body.hashedpass,
+      password: hashedpass,
     });
-    user
+    await user
       .save()
       .then((user) => {
-        res.json({
-          message: "user Added successfully",
-        });
+        res.locals.json = {
+          statusCode: 200,
+          data: user,
+        };
+        return next();
       })
       .catch((error) => {
-        res.json({
+        console.log(error);
+        res.locals.json = {
+          statusCode: 500,
           message: "error occured",
-        });
+        };
+        return next();
       });
   });
 };
-export const getUserDetails = (req: Request, res: Response, next: NextFunction) => {
-  const email = req.query.email as string;
-  const password = req.query.password as string;
 
-  Account.findOne({ email })
-    .then((user) => {
-      if (!user) {
-        res.status(404).json({
-          message: "User not found",
-        });
-      } else {
-        bcrypt.compare(password, user.password, function (err, result) {
-          if (err || !result) {
-            res.status(401).json({
-              message: "Invalid credentials",
-            });
-          } else {
-            const userData = {
-              name: `${user.firstName} ${user.lastName}`,
-              phone: user.phone,
-              email: user.email,
-            };
-
-            res.status(200).json(userData);
-          }
-        });
-      }
-    })
-    .catch((error) => {
-      res.status(500).json({
-        message: "Internal server error",
-      });
-    });
-};
-export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
+export const getUserById = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const userId = req.params.id;
 
-  Account.deleteOne({ _id: userId })
-    .then((result) => {
-      if (result.deletedCount && result.deletedCount === 1) {
-        res.status(200).json({
-          message: "User deleted successfully",
-        });
+  Account.findById({ _id: userId })
+    .then((user) => {
+      if (user) {
+        res.locals.json = {
+          statusCode: 200,
+          data: user,
+        };
+        return next();
       } else {
-        res.status(404).json({
-          message: "User not found",
-        });
+        res.locals.json = {
+          statusCode: 404,
+          message: "user not found",
+        };
+        return next();
       }
     })
     .catch((error) => {
-      res.status(500).json({
-        message: "Error occurred while deleting user",
-      });
+      res.locals.json = {
+        statusCode: 500,
+        message: "error occured",
+      };
+      return next();
     });
 };
