@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import { styles } from "../styles/home.style";
-import { pressHandler1 } from "../utils/utils";
-const Home = () => {
+import { pressHandler } from "../utils/utils";
+const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -19,7 +19,12 @@ const Home = () => {
         />
       </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={function handle() {
+          pressHandler("Login", navigation);
+        }}
+      >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
     </View>

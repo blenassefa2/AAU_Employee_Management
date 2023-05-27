@@ -12,9 +12,6 @@ const screens = {
   },
   Login: {
     screen: Login,
-    navigationOptions: {
-      headerShown: false,
-    },
   },
 };
 

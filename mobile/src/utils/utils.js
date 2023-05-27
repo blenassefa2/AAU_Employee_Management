@@ -1,3 +1,3 @@
-export const pressHandler1 = (goToScreen) => {
+export const pressHandler = (goToScreen, navigation) => {
   navigation.navigate(goToScreen);
 };
