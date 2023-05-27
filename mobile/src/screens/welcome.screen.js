@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import { styles } from "../styles/home.style";
 import { pressHandler } from "../utils/utils";
-const Home = ({ navigation }) => {
+const Welcome = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -31,4 +31,4 @@ const Home = ({ navigation }) => {
   );
 };
 
-export default Home;
+export default Welcome;

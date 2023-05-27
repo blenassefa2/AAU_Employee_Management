@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   titleContainer: {
-    marginTop: 120,
+    marginTop: 100,
     alignSelf: "flex-start",
     marginLeft: 40,
   },
@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#D9D9D9",
     borderRadius: 5,
-    marginBottom: 20,
+    marginBottom: 25,
     paddingHorizontal: 10,
   },
   icon: {
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 25,
   },
   button: {
     backgroundColor: "#3B7CBD",

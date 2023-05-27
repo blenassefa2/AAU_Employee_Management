@@ -1,17 +1,16 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Image,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import { styles } from "../styles/login.style";
-const Login = () => {
+import { pressHandler } from "../utils/utils";
+const Login = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <View
+        style={styles.header}
+        onTouchStart={function handle() {
+          pressHandler("Home", navigation);
+        }}
+      >
         <Image source={require("../assets/AAULogo.png")} style={styles.logo} />
       </View>
       <View style={styles.titleContainer}>
