@@ -6,7 +6,9 @@ import HomePage from "../screens/home.screen";
 const screens = {
   Home: {
     screen: HomePage,
-    headerTitle: () => <FirstDot />,
+    navigationOptions: {
+      headerShown: false,
+    },
   },
 };
 
