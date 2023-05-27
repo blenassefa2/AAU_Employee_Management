@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { styles } from "../styles/home.style";
-const HomePage = () => {
+import { pressHandler1 } from "../utils/utils";
+const Home = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -17,6 +18,7 @@ const HomePage = () => {
           style={styles.image}
         />
       </View>
+
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
@@ -24,4 +26,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Home;

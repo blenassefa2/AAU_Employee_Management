@@ -1,11 +1,17 @@
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 
-import HomePage from "../screens/home.screen";
-
+import Home from "../screens/home.screen";
+import Login from "../screens/login.screen";
 const screens = {
   Home: {
-    screen: HomePage,
+    screen: Home,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  Login: {
+    screen: Login,
     navigationOptions: {
       headerShown: false,
     },
