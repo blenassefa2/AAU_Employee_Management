@@ -15,6 +15,7 @@ export const app = express();
 // configuration
 app.disable("x-powered-by");
 app.use(cors());
+
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(urlencoded({ extended: true, limit: "50mb" }));
 app.use(morgan("dev"));

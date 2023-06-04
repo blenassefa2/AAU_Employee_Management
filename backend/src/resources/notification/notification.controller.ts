@@ -16,19 +16,20 @@ export const createNotification = async (
       reciever,
     });
     if (!newNotification) {
-      res.locals.json = {
+      res["locals"].json = {
         statusCode: 500,
         message: "error occured",
       };
       return next();
     }
-    res.locals.json = {
+    res["locals"].json = {
       statusCode: 200,
       data: newNotification,
     };
     return next();
   } catch (error) {
-    res.locals.json = {
+    console.log(error);
+    res["locals"].json = {
       statusCode: 500,
       message: "error occured",
     };
@@ -43,13 +44,13 @@ export const updateNotificationById = async (
 ) => {
   const _id = req.params.id;
   try {
-    res.locals.json = {
+    res["locals"].json = {
       statusCode: 200,
       message: "data",
     };
     return next();
   } catch (error) {
-    res.locals.json = {
+    res["locals"].json = {
       statusCode: 500,
       message: "error occured",
     };
@@ -64,13 +65,13 @@ export const getAllNotifications = async (
 ) => {
   try {
     const notifications = await Notification.find({});
-    res.locals.json = {
+    res["locals"].json = {
       statusCode: 200,
       data: notifications,
     };
     return next();
   } catch (error) {
-    res.locals.json = {
+    res["locals"].json = {
       statusCode: 500,
       message: "error occured",
     };
@@ -86,13 +87,13 @@ export const getNotificationById = async (
   const _id = req.params.id;
   try {
     const notification = await Notification.findById(_id);
-    res.locals.json = {
+    res["locals"].json = {
       statusCode: 200,
       data: notification,
     };
     return next();
   } catch (error) {
-    res.locals.json = {
+    res["locals"].json = {
       statusCode: 500,
       message: "error occured",
     };
@@ -108,13 +109,13 @@ export const deleteNotificationById = async (
   const _id = req.params.id;
   try {
     const notification = await Notification.findByIdAndDelete(_id);
-    res.locals.json = {
+    res["locals"].json = {
       statusCode: 200,
       data: "Successfully deleted",
     };
     return next();
   } catch (error) {
-    res.locals.json = {
+    res["locals"].json = {
       statusCode: 500,
       message: "error occured",
     };
@@ -131,13 +132,13 @@ export const getNotificationByTag = async (
     const Notifications = await Notification.find({
       tag: tag,
     });
-    res.locals.json = {
+    res["locals"].json = {
       statusCode: 200,
       message: Notifications,
     };
     return next();
   } catch (error) {
-    res.locals.json = {
+    res["locals"].json = {
       statusCode: 500,
       message: "error occured",
     };
