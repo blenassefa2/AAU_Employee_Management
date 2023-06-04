@@ -1,7 +1,17 @@
-import React, { useState } from "react";
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
 
-import Navigator from "./src/routes/homeStack";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
+
+import MyDrawer from "./src/routes/drawer";
 
 export default function App() {
-  return <Navigator />;
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <MyDrawer />
+      </NavigationContainer>
+    </Provider>
+  );
 }

@@ -42,7 +42,12 @@ const Login = ({ navigation }) => {
           />
         </View>
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={function handle() {
+          pressHandler("Home", navigation);
+        }}
+      >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
     </View>
