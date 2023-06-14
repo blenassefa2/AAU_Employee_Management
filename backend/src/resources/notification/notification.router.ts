@@ -7,7 +7,9 @@ import {
   getNotificationByTag,
   deleteNotificationById,
   updateNotificationById,
+  myNotifications,
 } from "./notification.controller";
+import { authorize } from "../../middleware/authorization";
 const notificationRouter = Router();
 
 notificationRouter.put(
@@ -21,6 +23,7 @@ notificationRouter.get(
   getNotificationById,
   respond
 );
+notificationRouter.get("/myNotifications", authorize, myNotifications, respond);
 notificationRouter.get(
   "/getNotificationByTag/:tag",
   getNotificationByTag,

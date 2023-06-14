@@ -20,6 +20,7 @@ export const register = async (
       lastName: req.body.lastName,
       email: req.body.email,
       phone: req.body.phone,
+      role: req.body.role,
       password: hashedpass,
     });
     await user
@@ -47,7 +48,7 @@ export const getAccountById = (
   res: Response,
   next: NextFunction
 ) => {
-  const userId = req.params.id;
+  const userId = res.locals._id;
 
   Account.findById({ _id: userId })
     .then((user) => {

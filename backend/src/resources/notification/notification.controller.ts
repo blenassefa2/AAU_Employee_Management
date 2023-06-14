@@ -36,6 +36,27 @@ export const createNotification = async (
     return next();
   }
 };
+export const myNotifications = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const id = res.locals._id;
+  try {
+    const notifications = await Notification.find({ reciever: id });
+    res["locals"].json = {
+      statusCode: 200,
+      data: notifications,
+    };
+    return next();
+  } catch (error) {
+    res["locals"].json = {
+      statusCode: 500,
+      message: "error occured",
+    };
+    return next();
+  }
+};
 
 export const updateNotificationById = async (
   req: Request,

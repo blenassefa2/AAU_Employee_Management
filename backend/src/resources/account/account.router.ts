@@ -10,7 +10,7 @@ import { authorize } from "../../middleware/authorization";
 const accountRouter = Router();
 
 accountRouter.post("/register", register, respond);
-accountRouter.get("/getById/:id", getAccountById, respond);
+accountRouter.get("/getById", authorize, getAccountById, respond);
 accountRouter.put("/updateById/:id", authorize, updateAccountById, respond);
 accountRouter.delete("/deleteById/:id", deleteAccountById, respond);
 export default accountRouter;

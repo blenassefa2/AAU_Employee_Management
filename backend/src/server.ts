@@ -9,12 +9,14 @@ import { connect } from "./utils/db/setupDB";
 // import all routers
 import accountRouter from "./resources/account/account.router";
 import notificationRouter from "./resources/notification/notification.router";
+import authRouter from "./utils/auth/authRouter";
 
 export const app = express();
 
 // configuration
 app.disable("x-powered-by");
 app.use(cors());
+app.use(express.json());
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(urlencoded({ extended: true, limit: "50mb" }));
@@ -23,6 +25,7 @@ app.use(morgan("dev"));
 // Lists of routers
 app.use("/api/v1/account", accountRouter);
 app.use("/api/v1/notification", notificationRouter);
+app.use("/api/v1/auth", authRouter);
 
 app.use((req, res) => {
   res.json({ data: "Hello World!" });
