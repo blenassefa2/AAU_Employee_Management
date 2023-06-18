@@ -10,6 +10,8 @@ import { connect } from "./utils/db/setupDB";
 import accountRouter from "./resources/account/account.router";
 import notificationRouter from "./resources/notification/notification.router";
 import authRouter from "./utils/auth/authRouter";
+import appealRouter from "./resources/appeal/appeal.router";
+import EvaluationRouter from "./resources/evaluation/evaluation.router";
 
 export const app = express();
 
@@ -26,7 +28,8 @@ app.use(morgan("dev"));
 app.use("/api/v1/account", accountRouter);
 app.use("/api/v1/notification", notificationRouter);
 app.use("/api/v1/auth", authRouter);
-
+app.use("/api/appeal", appealRouter)
+app.use("/api/evaluation", EvaluationRouter);
 app.use((req, res) => {
   res.json({ data: "Hello World!" });
 });
