@@ -2,11 +2,12 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useGetClockNumberQuery } from "../../redux/api/api";
+import { useMyNotificationQuery } from "../../redux/slices/users/usersApiSlice";
 import { styles } from "../../styles/component/layout.style";
 
 const Layout = ({ navigation, bodyElement }) => {
-  const { data, isLoading, isError, error } = useGetClockNumberQuery();
+  const { data, isLoading, isSuccess, isError, error } =
+    useMyNotificationQuery();
 
   let showNotificationDot = false;
   if (!isLoading && !isError) showNotificationDot = data.data.length > 0;

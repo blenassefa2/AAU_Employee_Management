@@ -4,13 +4,15 @@ import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import { styles } from "../styles/login.style";
 import { useSelector, useDispatch } from "react-redux";
 import { pressHandler } from "../utils/utils";
-import { useLoginMutation } from "../redux/api/api";
-import { onLogin } from "../redux/actions/loginAction";
+import { useLoginMutation } from "../redux/slices/auth/authApiSlice";
+import { setCredentials } from "../redux/slices/auth/authSlice";
+import { selectCurrentToken } from "../redux/slices/auth/authSlice";
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [login, { isLoading }] = useLoginMutation();
 
   return (
     <View style={styles.container}>
@@ -57,13 +59,20 @@ const Login = ({ navigation }) => {
       </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={function handle() {
-          dispatch(onLogin({ email, password }));
+        onPress={async function handle() {
+          const userData = await login({
+            email,
+            password,
+          }).unwrap();
+          console.log(userData.data.token);
+          dispatch(setCredentials(userData.data.token));
+
           // login({ email, password })
           //   .unwrap()
           //   .then((data) => {
           //     // Handle successful login
           //     console.log(data);
+
           pressHandler("Home", navigation);
           //   })
           //   .catch((error) => {
