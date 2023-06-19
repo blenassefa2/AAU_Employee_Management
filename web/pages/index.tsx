@@ -7,7 +7,7 @@ const Welcome: React.FC = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-white">
       <div className="flex flex-col items-start">
-        <div className="flex items-center justify-center rounded-full bg-blue-500 w-32 h-32">
+        <div className="flex items-center justify-center rounded-full bg-primary w-32 h-32">
           <Image
             className="w-32 h-32"
             src={require("../public/AAULogo.png")}
@@ -15,9 +15,9 @@ const Welcome: React.FC = () => {
           />
         </div>
         <div className="flex flex-col items-start mt-8">
-          <h1 className="text-4xl font-bold text-blue-700">Human Resource</h1>
+          <h1 className="text-4xl font-bold text-primary">Human Resource</h1>
           <p className="text-base font-bold text-black">Management System</p>
-          <p className="text-sm text-blue-700 mt-2">
+          <p className="text-sm text-primary mt-2">
             This website is designed to provide service for
             <br />
             Employees, Statisticians and HR managers at
