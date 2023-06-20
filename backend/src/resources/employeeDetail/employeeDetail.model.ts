@@ -14,6 +14,13 @@ export interface IEmployeeDetailInterface {
   dateOfBirth: Date;
   religion: String;
   martialStatus: boolean;
+  house:String;
+  EmoploymentDate:Date;
+  EmoploymentStatus: String;
+  JobTitle: String;
+  Salary: String;
+  Photo: String;
+
 }
 export const EmployeeDetailSchema: mongoose.Schema<IEmployeeDetailInterface> =
   new mongoose.Schema({
@@ -51,12 +58,13 @@ export const EmployeeDetailSchema: mongoose.Schema<IEmployeeDetailInterface> =
     },
     workExperience: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: false,
     },
     achievementsInfo: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: false,
     },
+    
   });
 export const EmployeeDetail = mongoose.model<IEmployeeDetailInterface>(
   "EmployeeDetail",
