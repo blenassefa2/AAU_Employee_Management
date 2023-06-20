@@ -39,6 +39,7 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
               statusCode: 200,
               data: {
                 token: token,
+                role: user.role,
               },
             };
             return next();
