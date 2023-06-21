@@ -13,7 +13,7 @@ export const Modal = ({ isOpen, onClose, message }: ModalProps) => {
       }`}
     >
       <div className="bg-white justify-center items-center w-[60%] rounded-lg p-6">
-        <p className="text-lg font-bold text-black mb-4">{message}</p>
+        <div className="text-lg font-bold text-black mb-4">{message}</div>
         <button
           className="px-4 py-2 bg-primary text-white rounded-lg mt-4"
           onClick={onClose}

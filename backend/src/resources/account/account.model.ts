@@ -6,6 +6,7 @@ export interface IAccountInterface {
   email: String;
   phone: String;
   password: String;
+  photoUrl: string;
   role: String;
 }
 export const AccountSchema: mongoose.Schema<IAccountInterface> =
@@ -30,9 +31,13 @@ export const AccountSchema: mongoose.Schema<IAccountInterface> =
       type: String,
       required: true,
     },
+    photoUrl: {
+      type: String,
+      required: true,
+    },
     role: {
       type: String,
-      enum: ["Employee", "Statistician", "Hrmanager"],
+      enum: ["Employee", "Statistician", "Hrexpert"],
       required: true,
     },
   });

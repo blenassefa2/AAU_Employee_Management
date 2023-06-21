@@ -1,25 +1,32 @@
-import { useState } from 'react';
-import React from 'react';
-import Link from 'next/link';
-import { HiBell, HiChevronDown } from 'react-icons/hi';
+import { useState } from "react";
+import React from "react";
+import Link from "next/link";
+import { HiBell, HiChevronDown } from "react-icons/hi";
+import Image from "next/image";
 
 const Header = () => {
-  // const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // const toggleDropdown = () => {
-  //   setIsOpen(!isOpen);
-  // };
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <nav className="bg-[#3B7CBD]">
+    <nav className="bg-primary">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/">
               <div className="flex items-center">
-                <img src="./download.png" alt="Logo" className="h-6 w-6 mr-2" />
+                <Image
+                  className="h-12 w-12 mr-2"
+                  src={require("../../public/AAULogo.png")}
+                  alt="logo"
+                />
                 <div>
-                  <b className="text-white font-bold text-xl">Addis Ababa University</b>
+                  <b className="text-white font-bold text-xl">
+                    Addis Ababa University
+                  </b>
                   <p className="text-white text-xl">አዲስ አበባ ዩኒቨርሲቲ</p>
                 </div>
               </div>
@@ -33,9 +40,13 @@ const Header = () => {
               >
                 <HiBell className="h-6 w-6" />
               </button>
-              <span className="absolute top-0 right-0 inline-flex items-center justify-center h-4 w-4 bg-red-500 text-xs text-white font-bold rounded-full">2</span>
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center h-4 w-4 bg-red-500 text-xs text-white font-bold rounded-full">
+                2
+              </span>
             </div>
-            <div className="ml-3 mr-4"> {/* Added mr-4 for right margin */}
+            <div className="ml-3 mr-4">
+              {" "}
+              {/* Added mr-4 for right margin */}
               <div className="relative inline-block text-left">
                 <div>
                   <button
@@ -44,7 +55,7 @@ const Header = () => {
                     id="menu-button"
                     aria-expanded="true"
                     aria-haspopup="true"
-                    // onClick={toggleDropdown}
+                    onClick={toggleDropdown}
                   >
                     <HiChevronDown className="h-5 w-5" />
                   </button>

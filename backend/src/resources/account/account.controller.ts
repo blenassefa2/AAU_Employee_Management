@@ -21,6 +21,7 @@ export const register = async (
       email: req.body.email,
       phone: req.body.phone,
       role: req.body.role,
+      photoUrl: req.body.photoUrl,
       password: hashedpass,
     });
     await user
