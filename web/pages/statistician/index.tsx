@@ -19,16 +19,21 @@ const Home = () => {
   useEffect(() => {
     if (!user) {
       redirectToAnotherPage("/");
-    } else if (user != "employee") {
+    } else if (user != "statistician") {
       redirectToAnotherPage(user);
     }
   });
-  if (user == "employee")
+  if (user == "statistician")
     return (
       // eslint-disable-next-line react/no-children-prop
       <div className="bg-white">
         <>
-          <HRExpertLayout>Here is an employee</HRExpertLayout>
+          <HRExpertLayout>
+            <p>
+              {token}
+              Here is a statistician
+            </p>
+          </HRExpertLayout>
         </>
       </div>
     );

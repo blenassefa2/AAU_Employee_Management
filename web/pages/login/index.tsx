@@ -78,7 +78,8 @@ const Login: React.FC = () => {
                 password,
               }).unwrap();
               console.log(userData.data.token);
-              dispatch(setCredentials(userData.data.token));
+
+              dispatch(setCredentials(userData.data));
 
               router.push(`/${userData.data.role}`);
             }}

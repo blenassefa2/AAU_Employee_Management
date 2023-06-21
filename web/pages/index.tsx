@@ -27,7 +27,7 @@ const Welcome: React.FC = () => {
         </div>
         <div className="flex justify-center mt-8">
           <button
-            className="bg-blue-500 text-white px-5 py-2 rounded"
+            className="bg-primary text-white px-5 py-2 rounded"
             onClick={() => {
               router.push("/login");
             }}
