@@ -3,8 +3,20 @@ import React from "react";
 import Link from "next/link";
 import { HiBell, HiChevronDown } from "react-icons/hi";
 import Image from "next/image";
+import { Modal } from "../Modal/Modal";
+import ChangePasswordForm from "../Common/ChangePasswordForm";
 
 const Header = () => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const handleOpen = () => {
+    setIsOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setIsOpenModal(false);
+  };
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -60,19 +72,46 @@ const Header = () => {
                     <HiChevronDown className="h-5 w-5" />
                   </button>
                 </div>
-                {/* {isOpen && (
+                {isOpen && (
                   <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                    <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
-                      <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabIndex={-1} id="menu-item-0">Logout</a>
-                      <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabIndex={-1} id="menu-item-1">Change Password</a>
+                    <div
+                      className="py-1"
+                      role="menu"
+                      aria-orientation="vertical"
+                      aria-labelledby="menu-button"
+                      tabIndex={-1}
+                    >
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                        tabIndex={-1}
+                        id="menu-item-0"
+                      >
+                        Logout
+                      </a>
+                      <div
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                        tabIndex={-1}
+                        id="menu-item-1"
+                        onClick={handleOpen}
+                      >
+                        Change Password
+                      </div>
                     </div>
                   </div>
-                ) */}
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isOpenModal}
+        onClose={handleClose}
+        message={<ChangePasswordForm />}
+      />
     </nav>
   );
 };
