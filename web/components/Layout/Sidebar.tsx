@@ -15,11 +15,16 @@ type SidebarProps = {
 };
 
 const Sidebar = ({ goto }: SidebarProps) => {
-  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  // const toggleDropdown = () => {
-  //   setIsDropdownOpen(!isDropdownOpen);
-  // };
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [evaluation, setEvaluation] = useState("white");
+  const [evaluationText, setEvaluationText] = useState("black");
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+    if (evaluation == "white") setEvaluation("primary");
+    else setEvaluation("white");
+    if (evaluationText == "black") setEvaluationText("white");
+    else setEvaluationText("black");
+  };
 
   // useEffect(() => {
   //   const closeDropdown = () => {
@@ -27,13 +32,13 @@ const Sidebar = ({ goto }: SidebarProps) => {
   //   };
 
   //   if (isDropdownOpen) {
-  //     document.addEventListener('click', closeDropdown);
+  //     document.addEventListener("click", closeDropdown);
   //   } else {
-  //     document.removeEventListener('click', closeDropdown);
+  //     document.removeEventListener("click", closeDropdown);
   //   }
 
   //   return () => {
-  //     document.removeEventListener('click', closeDropdown);
+  //     document.removeEventListener("click", closeDropdown);
   //   };
   // }, [isDropdownOpen]);
   const route = useRouter();
@@ -70,31 +75,60 @@ const Sidebar = ({ goto }: SidebarProps) => {
             <span className="text-lg">All Employees</span>
           </li>
           <li
-            className="flex items-center mb-4 hover:bg-[#3B7CBD] hover:text-white p-3 rounded"
-            onClick={() => {
-              route.push(goto + "/evaluation");
-            }}
+            className={`flex items-center mb-4 hover:bg-primary bg-${evaluation} text-${evaluationText} hover:text-white p-3 rounded`}
           >
             <HiClipboardList className="h-6 w-6 mr-2" />
             <span className="text-lg">Evaluation</span>
             <div className="ml-auto">
               <button
                 className="text-lg"
-                // onClick={toggleDropdown}
+                onClick={toggleDropdown}
                 aria-label="Toggle Dropdown"
               >
                 <HiChevronDown className="h-6 w-6 inline-block" />
               </button>
-              {/* {isDropdownOpen && (
-                <ul className="absolute mt-2 py-2 bg-white shadow rounded">
+              {isDropdownOpen && (
+                <ul className="absolute mt-2 bg-white py-2 text-black shadow rounded">
                   <li className="px-4 py-2 hover:bg-gray-200">
-                    <a href="#">Evaluate Myself</a>
+                    <div
+                      onClick={() => {
+                        route.push(goto + "/self-evaluation");
+                      }}
+                    >
+                      Self Evaluation
+                    </div>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-200">
-                    <a href="#">Evaluate My College</a>
+                    <div
+                      onClick={() => {
+                        route.push(goto + "/evaluate-others");
+                      }}
+                    >
+                      Evaluate Others
+                    </div>
                   </li>
+                  <li className="px-4 py-2 hover:bg-gray-200">
+                    <div
+                      onClick={() => {
+                        route.push(goto + "/evaluation-history");
+                      }}
+                    >
+                      Evaluation History
+                    </div>
+                  </li>
+                  {goto == "/hrexpert" && (
+                    <li className="px-4 py-2 hover:bg-gray-200">
+                      <div
+                        onClick={() => {
+                          route.push(goto + "/create-evaluation-form");
+                        }}
+                      >
+                        Create Evaluation Form
+                      </div>
+                    </li>
+                  )}
                 </ul>
-              )} */}
+              )}
             </div>
           </li>
           <li

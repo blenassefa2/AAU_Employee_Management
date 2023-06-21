@@ -8,7 +8,7 @@
     "start": "node dist/app.js",
     "dev": "nodemon src/app.ts",
     "chat": "nodemon src/chat.server.ts",
-    "build": "tsc -p .",
+    "build": "npm install && tsc -p .",
     "prettier-watch": "onchange 'src/**/*/ts' --prettier --write {{changed}}"
   },
   "keywords": [],
