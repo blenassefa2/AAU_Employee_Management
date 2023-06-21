@@ -19,7 +19,6 @@ export interface IEmployeeDetailInterface {
   EmoploymentStatus: String;
   JobTitle: String;
   Salary: String;
-  Photo: String;
 
 }
 export const EmployeeDetailSchema: mongoose.Schema<IEmployeeDetailInterface> =

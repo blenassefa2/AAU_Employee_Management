@@ -5,6 +5,7 @@ export interface IAccountInterface {
   lastName: string;
   email: string;
   phone: string;
+  userName: string;
   password: string;
   role: string;
   woreda: string;
@@ -16,11 +17,16 @@ export interface IAccountInterface {
 }
 
 export const AccountSchema: mongoose.Schema<IAccountInterface> = new mongoose.Schema({
+
   firstName: {
     type: String,
     required: true,
   },
   lastName: {
+    type: String,
+    required: true,
+  },
+  userName:{
     type: String,
     required: true,
   },

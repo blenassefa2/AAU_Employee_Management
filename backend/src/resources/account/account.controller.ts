@@ -1,7 +1,7 @@
 import { Account, IAccountInterface } from "./account.model";
 import { Notification} from "../notification/notification.model";
 import bcrypt from "bcryptjs";
-import { NextFunction, Request, Response } from "express";
+import e, { NextFunction, Request, Response } from "express";
 import { transporter } from "../../middleware/sendEmail";
 import XLSX from "xlsx";
 import * as randomstring from "randomstring";
@@ -39,6 +39,7 @@ try {
     const newEmployee = new Account({
       firstName: employee.firstName,
       lastName: employee.lastName,
+      userName: employee.firstName + employee.lastName,
       email: employee.email,
       phone: employee.phone,
       password: hashedPassword,
@@ -93,6 +94,7 @@ const hashedpass = await bcrypt.hash(req.body.password, 10);
     let user = await new Account({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
+      userName : req.body.firstName + req.body.lastName,
       email: req.body.email,
       phone: req.body.phone,
       role: req.body.role,
@@ -318,6 +320,8 @@ try {
     
   }
 }
+
+
 export const rejectNotification = async(req:Request,res: Response, next: NextFunction)=>{
   try {
    
@@ -347,3 +351,134 @@ export const rejectNotification = async(req:Request,res: Response, next: NextFun
     return next();
   }
 }
+
+
+ export const resetPassword = async (
+   req: Request,
+   res: Response,
+   next: NextFunction
+ ) => {
+   try {
+     const hashedpass = await bcrypt.hash(req.body.password, 10);
+     const userName = req.body.userName;
+     const sender = req.params.id;
+     const result = await Account.updateOne(
+       { _id: sender },
+       { $set: { password: hashedpass, userName: userName} }
+     );
+
+     if (result != null) {
+       console.log("User password updated successfully");
+     } else {
+       res.locals.json = {
+         statusCode: 500,
+         message: "User not found.",
+       };
+       return next();
+     }
+     const user = await Account.findById(sender);
+     const mailOptions = {
+       from: "aauhumanresource@gmail.com",
+       to: user.email as string,
+       subject: "New password",
+       text: "password: " + req.body.password,
+     };
+
+     const info = await transporter.sendMail(mailOptions);
+     console.log("Email sent successfully!", info.response);
+
+     res.locals.json = {
+       statusCode: 200,
+       message: "Password changed Successfully.",
+     };
+     return next();
+   } catch (err) {
+     console.log(err);
+     res.locals.json = {
+       statusCode: 500,
+       message: "error occured",
+     };
+     return next();
+   }
+ };
+ export const changePassword = async (
+   req: Request,
+   res: Response,
+   next: NextFunction
+ ) => {
+   try {
+    console.log(req.body.password)
+     const hashedpass = await bcrypt.hash(req.body.password, 10);
+     
+     const sender = req.params.id;
+     const result = await Account.updateOne(
+       { _id: sender },
+       { $set: { password: hashedpass } }
+     );
+
+     if (result != null) {
+       console.log("User password updated successfully");
+     } else {
+       res.locals.json = {
+         statusCode: 500,
+         message: "User not found.",
+       };
+       return next();
+     }
+     const user = await Account.findById(sender);
+     const mailOptions = {
+       from: "aauhumanresource@gmail.com",
+       to: user.email as string,
+       subject: "New password",
+       text: "password: " + req.body.password,
+     };
+
+     const info = await transporter.sendMail(mailOptions);
+     console.log("Email sent successfully!", info.response);
+
+     res.locals.json = {
+       statusCode: 200,
+       message: "Password changed Successfully.",
+     };
+     return next();
+   } catch (err) {
+     console.log(err);
+     res.locals.json = {
+       statusCode: 500,
+       message: "error occured",
+     };
+     return next();
+   }
+ };
+ export const search = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const keyword = req.params.keyword || ''
+    
+    const users = await Account.find({
+      firstName: { $regex: `${keyword}`, $options: 'i' }
+    })
+  
+  res.locals.json = {
+    statusCode: 200,
+    data: users,
+  };
+  return next();
+  
+  }catch(err)
+  {
+    console.log(err);
+     res.locals.json = {
+       statusCode: 500,
+       message: "error occured",
+     };
+     return next();
+   }
+
+
+  }
+
+
