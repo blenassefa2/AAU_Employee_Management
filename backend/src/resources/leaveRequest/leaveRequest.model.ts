@@ -11,10 +11,6 @@ export interface ILeaveRequestInterface {
 
 export const LeaveRequestSchema: mongoose.Schema<ILeaveRequestInterface> =
   new mongoose.Schema({
-    requestId: {
-        type: String,
-        required: true
-    },
 
     employeeId: {
         type: String,
@@ -33,7 +29,7 @@ export const LeaveRequestSchema: mongoose.Schema<ILeaveRequestInterface> =
 
     response: {
         type: String,
-        required: true
+        required: false
     },
 
     departmentHeadId: {

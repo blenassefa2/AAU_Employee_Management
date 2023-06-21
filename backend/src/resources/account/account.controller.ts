@@ -1,10 +1,14 @@
 import { Account, IAccountInterface } from "./account.model";
+import { Notification} from "../notification/notification.model";
 import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
 import { transporter } from "../../middleware/sendEmail";
 import XLSX from "xlsx";
 import * as randomstring from "randomstring";
 import cloudinary from "../../config/cloudinary";
+import { ObjectId } from "mongodb";
+import { reject } from "lodash";
+import { setDefaultResultOrder } from "dns";
 
 // Usage
 
@@ -215,3 +219,131 @@ export const deleteAccountById = (
       return next();
     });
 };
+export const forgetPassword = async(req: Request, res: Response, next: NextFunction) =>{
+try {
+  const sender = req.params.id;
+  const user = await Account.findById(sender)
+  const tag = "Emergent" 
+  const reciever = new ObjectId("647c9b8b18398bdc020ee99b")
+  const recieverUser = (await Account.findById(reciever));
+  const description = "Dear " + recieverUser.firstName + " employee " + user.firstName + " "+ user.lastName+ " has forgotten their password"
+  const newNotification = new Notification({
+    reciever, sender, tag, description
+  });
+  newNotification.save()
+  if (!newNotification) {
+    res["locals"].json = {
+      statusCode: 500,
+      message: "error occured",
+    };
+    return next();
+  }
+  res["locals"].json = {
+    statusCode: 200,
+    data: newNotification,
+  };
+  return next();
+} catch (error) {
+  console.log(error);
+  res["locals"].json = {
+    statusCode: 500,
+    message: "error occured",
+  };
+  return next();
+ }
+
+
+}
+ export const getAccount = async (req: Request, res: Response, next: NextFunction) => {
+   try {
+     const accounts = await Account.find();
+     res.locals.json = {
+       statusCode: 200,
+       data: accounts,
+     };
+     return next();
+   } catch (error) {
+     res["locals"].json = {
+       statusCode: 500,
+       message: "error occured",
+     };
+     return next();
+   }
+ };
+ export const aprove = async (req: Request, res: Response, next: NextFunction) => {
+  try{
+   const randomPassword: string = randomstring.generate(10);
+  const hashedPassword = await bcrypt.hash(randomPassword, 10);
+  const sender = req.params.id;
+  const result = await Account.updateOne(
+    { _id: sender },
+    { $set: { password: hashedPassword } }
+  );
+
+  if (result != null) {
+    console.log("User password updated successfully");
+  } else {
+    res.locals.json = {
+      statusCode: 500,
+      message: "User not found.",
+    };
+    return next();
+  }
+  const user = await Account.findById(sender)
+    const mailOptions = {
+      from: "aauhumanresource@gmail.com",
+      to:  user.email as string,
+      subject: "New password",
+      text: "password: " + randomPassword,
+    };
+    
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully!", info.response);
+
+
+  res.locals.json = {
+    statusCode: 200,
+    message: "Password changed Successfully.",
+  };
+  return next();
+  }
+  catch(err){
+    console.log(err);
+    res.locals.json = {
+  
+    statusCode: 500,
+    message: "error occured",
+    } 
+  return next();
+    
+  }
+}
+export const rejectNotification = async(req:Request,res: Response, next: NextFunction)=>{
+  try {
+   
+    const sender = req.params.id;
+    const user = await Account.findById(sender);
+    const mailOptions = {
+      from: "aauhumanresource@gmail.com",
+      to: user.email as string,
+      subject: "New password denied",
+      text: "We cant provide you with a new password for more information visite the HR office of AAU"
+    };
+    
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully!", info.response);
+
+    res.locals.json = {
+      statusCode: 200,
+      message: "Password denied Successfully.",
+    };
+    return next();
+  } catch (err) {
+    console.log(err);
+    res.locals.json = {
+      statusCode: 500,
+      message: "error occured",
+    };
+    return next();
+  }
+}

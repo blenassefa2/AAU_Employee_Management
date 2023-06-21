@@ -121,6 +121,31 @@ export const getNotificationById = async (
     return next();
   }
 };
+export const getNotificationByReciver = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const _id = req.params.id;
+  try {
+    const notifications = await Notification.find({
+      reciever: _id,
+    });
+
+    console.log("Notifications:", notifications);
+    res["locals"].json = {
+      statusCode: 200,
+      data: notifications,
+    };
+    return next();
+  } catch (error) {
+    res["locals"].json = {
+      statusCode: 500,
+      message: "error occured",
+    };
+    return next();
+  }
+};
 
 export const deleteNotificationById = async (
   req: Request,
