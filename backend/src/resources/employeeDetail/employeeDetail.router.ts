@@ -4,10 +4,12 @@ import {
   createEmployeeDetail,
   getAllEmployeeDetails,
   getEmployeeDetailById,
-  getEmployeeDetailByTag,
+  getEmployeeDetailByEmployeeId,
   deleteEmployeeDetailById,
   updateEmployeeDetailById,
+  creatMany,
 } from "./employeeDetail.controller";
+import { upload } from "../../middleware/multer";
 const employeeDetailRouter = Router();
 
 employeeDetailRouter.put(
@@ -22,8 +24,8 @@ employeeDetailRouter.get(
   respond
 );
 employeeDetailRouter.get(
-  "/getEmployeeDetailByTag/:tag",
-  getEmployeeDetailByTag,
+  "/getEmployeeDetailByEmployeeId/:id",
+  getEmployeeDetailByEmployeeId,
   respond
 );
 employeeDetailRouter.delete(
@@ -34,6 +36,12 @@ employeeDetailRouter.delete(
 employeeDetailRouter.post(
   "/createEmployeeDetail",
   createEmployeeDetail,
+  respond
+);
+employeeDetailRouter.post(
+  "/createMany",
+  upload.single("file"),
+  creatMany,
   respond
 );
 

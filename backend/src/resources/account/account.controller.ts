@@ -476,9 +476,22 @@ export const rejectNotification = async(req:Request,res: Response, next: NextFun
        message: "error occured",
      };
      return next();
-   }
+   }}
+export const convertToExcel = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
 
-
+  }catch(err){
+   console.log(err);
+   res.locals.json = {
+     statusCode: 500,
+     message: "error occured",
+   };
+   return next(); 
   }
 
 
+}

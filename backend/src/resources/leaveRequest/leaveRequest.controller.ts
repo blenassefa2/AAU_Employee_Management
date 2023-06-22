@@ -1,28 +1,36 @@
 import { NextFunction, Request, Response } from "express";
 import { LeaveRequest } from './leaveRequest.model';
 import cloudinary from "./../../config/cloudinary";
-
+import { Account } from "../account/account.model";
+import { EmployeeDetail } from "../employeeDetail/employeeDetail.model";
+import { Notification } from "../notification/notification.model";
 export const createLeaveRequest = async (
     req: Request, 
     res: Response,
     next: NextFunction
     ) => {
-//   try {
-//     const leaveRequest = await LeaveRequest.create(req.body);
-//     res.status(201).json({ leaveRequest });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
     try {
-        const { requestId, employeeId, reason, attachment, departmentHeadId } = req.body;
+        const  employeeId = req.params.id;
+        const reason   = req.body.reason;
+        const startDate = req.body.startDate;
+        const endDate = req.body.endDate
+        const user = await Account.findById(employeeId);
+        const tag = "Leave Request" 
+        const userdetail = await EmployeeDetail.find({
+          employeeId: employeeId,
+        });
+        const departmentHead = userdetail[0].departmentHead; 
+        const newNotification = new Notification({
+         reciever:userdetail, sender: employeeId, tag:tag, description: reason
+        });
+        newNotification.save()
         const newLeaveRequest = await LeaveRequest.create({
-            requestId,
-            employeeId,
-            reason,
-            attachment,
-            response: '',
-            departmentHeadId,
+          employeeId: employeeId,
+          startDate: startDate,
+          endDate: endDate,
+          reason: reason,
+          description: reason,
+          departmentHeadId: departmentHead,
         });
         if (!newLeaveRequest) {
             res.locals.json = {
@@ -51,13 +59,7 @@ export const getLeaveRequests = async (
     req: Request, 
     res: Response,
     next: NextFunction) => {
-//   try {
-//     const leaveRequests = await LeaveRequest.find();
-//     res.json({ leaveRequests });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
+
 
  try {
     const leaveRequests = await LeaveRequest.find({});
@@ -79,16 +81,7 @@ export const getLeaveRequestById = async (
     req: Request, 
     res: Response,
     next: NextFunction) => {
-//   try {
-//     const leaveRequest = await LeaveRequest.findById(req.params.id);
-//     if (!leaveRequest) {
-//       res.status(404).json({ error: 'Leave request not found' });
-//     } else {
-//       res.json({ leaveRequest });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
+
 const _id = req.params.id;
  try {
     const leaveRequest = await LeaveRequest.findById(_id);

@@ -2,24 +2,30 @@ import mongoose from "mongoose";
 
 export interface IEmployeeDetailInterface {
   employeeId: mongoose.Schema.Types.ObjectId;
-  dependantsInfo: mongoose.Schema.Types.ObjectId;
-  educationInfo: mongoose.Schema.Types.ObjectId;
-  trainingInfo: mongoose.Schema.Types.ObjectId;
-  familyInfo: mongoose.Schema.Types.ObjectId;
-  achievementsInfo: mongoose.Schema.Types.ObjectId;
-  workExperience: mongoose.Schema.Types.ObjectId;
   departmentName: String;
   departmentHead: mongoose.Schema.Types.ObjectId;
   age: number;
-  dateOfBirth: Date;
-  religion: String;
-  martialStatus: boolean;
-  house:String;
-  EmoploymentDate:Date;
+  dateOfBirth: String;
+  EmoploymentDate: String;
   EmoploymentStatus: String;
   JobTitle: String;
   Salary: String;
-
+  fatherFullName: String;
+  mothersFullName: String;
+  fathersPhone: String;
+  mothersPhone: String;
+  fathersEmail: String;
+  mothersEmail: String;
+  fathersNationality: String;
+  mothersNationality: String;
+  emergencyFullName: String;
+  emergencyPhone: String;
+  emergencyemail: String;
+  emergencyNationality: String;
+  emergencyTown: String;
+  emergencyWereda: String;
+  emergencyKebele: String;
+  emergencyHouse: String;
 }
 export const EmployeeDetailSchema: mongoose.Schema<IEmployeeDetailInterface> =
   new mongoose.Schema({
@@ -27,43 +33,102 @@ export const EmployeeDetailSchema: mongoose.Schema<IEmployeeDetailInterface> =
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
-    dependantsInfo: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
-    educationInfo: {
-      type: mongoose.Schema.Types.ObjectId,
+    departmentName: {
+      type: String,
       required: false,
     },
-    trainingInfo: {
+    departmentHead: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
     age: {
       type: Number,
-      required: true,
-    },
-    martialStatus: {
-      type: Boolean,
       required: false,
     },
-    religion: {
+    dateOfBirth: {
       type: String,
       required: false,
     },
-    familyInfo: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: false,
+    EmoploymentDate: {
+      type: String,
+      required: true,
     },
-    workExperience: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: false,
+    EmoploymentStatus: {
+      type: String,
+      required: true,
     },
-    achievementsInfo: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: false,
+    JobTitle: {
+      type: String,
+      required: true,
     },
-    
+    Salary: {
+      type: String,
+      required: true,
+    },
+    fatherFullName: {
+      type: String,
+      required: true,
+    },
+    mothersFullName: {
+      type: String,
+      required: true,
+    },
+    fathersPhone: {
+      type: String,
+      required: true,
+    },
+    mothersPhone: {
+      type: String,
+      required: true,
+    },
+    fathersEmail: {
+      type: String,
+      required: true,
+    },
+    mothersEmail: {
+      type: String,
+      required: true,
+    },
+    fathersNationality: {
+      type: String,
+      required: true,
+    },
+    mothersNationality: {
+      type: String,
+      required: true,
+    },
+    emergencyFullName: {
+      type: String,
+      required: true,
+    },
+    emergencyPhone: {
+      type: String,
+      required: true,
+    },
+    emergencyemail: {
+      type: String,
+      required: true,
+    },
+    emergencyNationality: {
+      type: String,
+      required: true,
+    },
+    emergencyTown: {
+      type: String,
+      required: true,
+    },
+    emergencyWereda: {
+      type: String,
+      required: true,
+    },
+    emergencyKebele: {
+      type: String,
+      required: true,
+    },
+    emergencyHouse: {
+      type: String,
+      required: true,
+    },
   });
 export const EmployeeDetail = mongoose.model<IEmployeeDetailInterface>(
   "EmployeeDetail",
