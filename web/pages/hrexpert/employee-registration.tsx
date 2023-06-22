@@ -12,9 +12,10 @@ function EmployeeRegistration() {
   });
 
   const [employment, setEmployment] = useState({
+    employmentDate: "",
+    employmentStatus: "",
     jobTitle: "",
-    company: "",
-    salary: 0,
+    salary: 2,
   });
 
   const [familyBackground, setFamilyBackground] = useState({
@@ -74,9 +75,9 @@ function EmployeeRegistration() {
   return (
     <div className="bg-white ">
       <HRExpertLayout>
-        <div className="bg-black">
+        <div className="bg-white">
           {/* Use a range input element to create the line with the red circle */}
-          <div className="mt-10 mb-3 mx-[10%] w-[80%]">
+          <div className="mt-10 mx-[10%] w-[80%]">
             <input
               type="range"
               min="0"
@@ -92,7 +93,7 @@ function EmployeeRegistration() {
               onChange={handleChange}
               style={{
                 width: "100%",
-                height: "16px",
+                height: "10px",
                 borderRadius: "8px",
                 background: "lightgray",
                 outline: "none",
@@ -123,7 +124,7 @@ function EmployeeRegistration() {
               ></div>
             ))}
           </div>
-          <div className="flex justify-between mb-8">
+          <div className="flex justify-between mb-16">
             <div className="flex justify-between mb-8"></div>
             <div style={{ marginBottom: "20px" }}></div>
             {[
@@ -135,23 +136,23 @@ function EmployeeRegistration() {
                 key={slider}
                 className={`${
                   activeSlider === slider
-                    ? "bg-blue-500 text-white"
+                    ? "bg-primary text-white"
                     : "text-gray-500"
-                } flex-1 rounded-md text-center py-2`}
+                } flex-1 rounded-xl ml-16 text-center py-2`}
                 onClick={() => handleSliderChange(slider)}
               >
                 {label}
               </button>
             ))}
           </div>
-          <div className="flex justify-center items-center h-screen p-8">
+          <div className="flex justify-center items-center h-screen p-8 ">
             <div style={{ height: "700px", overflow: "auto" }}>
-              <div className="flex justify-between mb-8">
+              <div className="flex justify-between mb-16">
                 <div className="w-full max-w-lg">
                   {activeSlider === "personal" && (
                     <form
                       onSubmit={handleSubmit}
-                      className="grid grid-cols-2 gap-4"
+                      className="grid grid-cols-2 gap-x-32 gap-y-0"
                     >
                       <div>
                         <label
@@ -166,9 +167,9 @@ function EmployeeRegistration() {
                           name="firstName"
                           value={employee.firstName}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 mr-8 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
-                          placeholder="First name..."
+                          placeholder="Enter first name"
                           style={{
                             width: "100%",
                             height: "48px",
@@ -189,8 +190,9 @@ function EmployeeRegistration() {
                           name="lastName"
                           value={employee.lastName}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
+                          placeholder="Enter last name"
                           style={{
                             width: "100%",
                             height: "48px",
@@ -211,7 +213,8 @@ function EmployeeRegistration() {
                           name="email"
                           value={employee.email}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          placeholder="Enter email address"
                           required
                           style={{
                             width: "100%",
@@ -233,8 +236,9 @@ function EmployeeRegistration() {
                           name="email"
                           value={employee.email}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
+                          placeholder="Enter age"
                           style={{
                             width: "100%",
                             height: "48px",
@@ -255,8 +259,9 @@ function EmployeeRegistration() {
                           name="email"
                           value={employee.email}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
+                          placeholder="town"
                           style={{
                             width: "100%",
                             height: "48px",
@@ -277,8 +282,9 @@ function EmployeeRegistration() {
                           name="email"
                           value={employee.email}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
+                          placeholder="Wereda"
                           style={{
                             width: "100%",
                             height: "48px",
@@ -299,8 +305,9 @@ function EmployeeRegistration() {
                           name="phone"
                           value={employee.phone}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
+                          placeholder="Eg. 09-123456789"
                           style={{
                             width: "100%",
                             height: "48px",
@@ -320,7 +327,7 @@ function EmployeeRegistration() {
                           name="maritalStatus"
                           value={employee.maritalStatus}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 text-black block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -328,10 +335,18 @@ function EmployeeRegistration() {
                             marginBottom: "16px",
                           }}
                         >
-                          <option value="">Choose...</option>
-                          <option value="Single">Single</option>
-                          <option value="Married">Married</option>
-                          <option value="Widowed">Widowed</option>
+                          <option className="text-gray-300" value="">
+                            Choose...
+                          </option>
+                          <option className="text-black" value="Single">
+                            Single
+                          </option>
+                          <option className="text-black" value="Married">
+                            Married
+                          </option>
+                          <option className="text-black" value="Widowed">
+                            Widowed
+                          </option>
                         </select>
                       </div>
                       <div className="col-span-2">
@@ -346,8 +361,9 @@ function EmployeeRegistration() {
                           name="address"
                           value={employee.address}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
+                          placeholder="road/current residence/country"
                           style={{
                             width: "100%",
                             height: "48px",
@@ -379,7 +395,7 @@ function EmployeeRegistration() {
                   {activeSlider === "employment" && (
                     <form
                       onSubmit={handleSubmit}
-                      className="grid grid-cols-2 gap-4"
+                      className="grid grid-cols-2 gap-x-32 gap-y-0"
                     >
                       <div>
                         <label
@@ -390,16 +406,16 @@ function EmployeeRegistration() {
                         </label>
                         <input
                           type="text"
-                          id="jobTitle"
-                          name="jobTitle"
-                          value={employment.jobTitle}
+                          id="employmentDate"
+                          name="employmentDate"
+                          value={employment.employmentDate}
                           onChange={(e) =>
                             setEmployment({
                               ...employment,
-                              jobTitle: e.target.value,
+                              employmentDate: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -413,10 +429,37 @@ function EmployeeRegistration() {
                           htmlFor="jobTitle"
                           className="block font-medium text-gray-700 mt-4"
                         >
-                          Job Title
+                          Employment Status
                         </label>
                         <input
                           type="text"
+                          id="employmentStatus"
+                          name="employmentStatus"
+                          value={employment.employmentStatus}
+                          onChange={(e) =>
+                            setEmployment({
+                              ...employment,
+                              employmentStatus: e.target.value,
+                            })
+                          }
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          required
+                          style={{
+                            width: "100%",
+                            height: "48px",
+                            marginBottom: "16px",
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="salary"
+                          className="block font-medium text-gray-700 mt-4"
+                        >
+                          Job Title
+                        </label>
+                        <input
+                          type="number"
                           id="jobTitle"
                           name="jobTitle"
                           value={employment.jobTitle}
@@ -426,7 +469,7 @@ function EmployeeRegistration() {
                               jobTitle: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -453,34 +496,7 @@ function EmployeeRegistration() {
                               salary: parseInt(e.target.value),
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
-                          style={{
-                            width: "100%",
-                            height: "48px",
-                            marginBottom: "16px",
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="salary"
-                          className="block font-medium text-gray-700 mt-4"
-                        >
-                          Joined In
-                        </label>
-                        <input
-                          type="number"
-                          id="salary"
-                          name="salary"
-                          value={employment.salary}
-                          onChange={(e) =>
-                            setEmployment({
-                              ...employment,
-                              salary: parseInt(e.target.value),
-                            })
-                          }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -518,7 +534,7 @@ function EmployeeRegistration() {
                   {activeSlider === "family" && (
                     <form
                       onSubmit={handleSubmit}
-                      className="grid grid-cols-2 gap-4"
+                      className="grid grid-cols-2 gap-x-32"
                     >
                       <div>
                         <label
@@ -538,7 +554,7 @@ function EmployeeRegistration() {
                               fatherName: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -563,7 +579,7 @@ function EmployeeRegistration() {
                               fatherPhone: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -588,7 +604,7 @@ function EmployeeRegistration() {
                               fatherEmail: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -613,7 +629,7 @@ function EmployeeRegistration() {
                               fatherNationality: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -640,7 +656,7 @@ function EmployeeRegistration() {
                               motherName: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -665,7 +681,7 @@ function EmployeeRegistration() {
                               motherPhone: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -690,7 +706,7 @@ function EmployeeRegistration() {
                               motherEmail: e.target.value,
                             })
                           }
-                          className="mt-1 blockw-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -715,7 +731,7 @@ function EmployeeRegistration() {
                               motherNationality: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -742,7 +758,7 @@ function EmployeeRegistration() {
                               emergencyContactName: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -767,7 +783,7 @@ function EmployeeRegistration() {
                               emergencyContactPhone: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -792,7 +808,7 @@ function EmployeeRegistration() {
                               emergencyContactEmail: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -817,7 +833,7 @@ function EmployeeRegistration() {
                               emergencyContactWoreda: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -844,7 +860,7 @@ function EmployeeRegistration() {
                               emergencyContactTown: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -869,7 +885,7 @@ function EmployeeRegistration() {
                               emergencyContactTown: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",

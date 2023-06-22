@@ -24,7 +24,8 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(urlencoded({ extended: true, limit: "50mb" }));
@@ -52,3 +53,4 @@ export const start = async () => {
     console.error(e);
   }
 };
+start();
