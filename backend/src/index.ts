@@ -19,7 +19,7 @@ export const app = express();
 // configuration
 app.disable("x-powered-by");
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:19006");
+  res.setHeader("Access-Control-Allow-Origin", "https://final-project-nine-pi.vercel.app/");
   // Add other necessary CORS headers here if needed
   next();
 });
