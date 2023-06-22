@@ -2,11 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest --runInBand --detectOpenHandels",
-    "start": "node dist/app.js",
-    "dev": "nodemon src/app.ts",
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts",
     "chat": "nodemon src/chat.server.ts",
     "build": "tsc -p .",
     "prettier-watch": "onchange 'src/**/*/ts' --prettier --write {{changed}}"
