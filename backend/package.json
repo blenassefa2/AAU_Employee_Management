@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --runInBand --detectOpenHandels",
-    "start": "node dist/app.js",
+    "start": "node dist/app.js  --max_old_space_size=4096",
     "dev": "nodemon src/app.ts",
     "chat": "nodemon src/chat.server.ts",
     "build": "tsc -p .",
