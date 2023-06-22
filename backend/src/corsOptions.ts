@@ -4,7 +4,7 @@ const allowedOrigins: string[] = [
   "http://localhost:3500",
   "http://localhost:3000",
   "http://localhost:19006",
-  "http://192.168.56.1:8000",
+  "https://final-project-nine-pi.vercel.app/",
   "https://final-project-hmgwa5qxd-blenassefa2.vercel.app/",
 ];
 
