@@ -5,6 +5,7 @@ const allowedOrigins: string[] = [
   "http://localhost:3000",
   "http://localhost:19006",
   "http://192.168.56.1:8000",
+  "https://final-project-hmgwa5qxd-blenassefa2.vercel.app/",
 ];
 
 const corsOptions = {

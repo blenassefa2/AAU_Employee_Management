@@ -45,6 +45,7 @@ export const start = async () => {
   try {
     await connect();
     app.listen(config.port, () => {
+      console.log(config.host);
       console.log(`REST API on http://${config.host}:${config.port}/api`);
     });
   } catch (e) {
