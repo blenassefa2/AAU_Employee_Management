@@ -98,6 +98,7 @@ const hashedpass = await bcrypt.hash(req.body.password, 10);
       email: req.body.email,
       phone: req.body.phone,
       role: req.body.role,
+      photoUrl: req.body.photoUrl,
       password: hashedpass,
       photo: cloudinaryImage.secure_url,
       woreda: req.body.woreda,

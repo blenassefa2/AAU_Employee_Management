@@ -10,6 +10,7 @@ export const authorize = async (
   res: Response,
   next: NextFunction
 ) => {
+  console.log(req.headers);
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
