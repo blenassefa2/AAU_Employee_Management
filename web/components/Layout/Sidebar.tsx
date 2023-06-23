@@ -56,15 +56,17 @@ const Sidebar = ({ goto }: SidebarProps) => {
             <HiHome className="h-6 w-6 mr-2" />
             <span className="text-lg">Home</span>
           </li>
-          <li
-            className="flex items-center mb-4 hover:bg-[#3B7CBD] hover:text-white p-3 rounded"
-            onClick={() => {
-              route.push(goto + "/employee-registration");
-            }}
-          >
-            <HiUserAdd className="h-6 w-6 mr-2" />
-            <span className="text-lg">Employee Registration</span>
-          </li>
+          {goto == "/hrexpert" && (
+            <li
+              className="flex items-center mb-4 hover:bg-[#3B7CBD] hover:text-white p-3 rounded"
+              onClick={() => {
+                route.push(goto + "/employee-registration");
+              }}
+            >
+              <HiUserAdd className="h-6 w-6 mr-2" />
+              <span className="text-lg">Employee Registration</span>
+            </li>
+          )}
           <li
             className="flex items-center mb-4 hover:bg-[#3B7CBD] hover:text-white p-3 rounded"
             onClick={() => {

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import HRExpertLayout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/HRExpertlayout";
 import { useSelector } from "react-redux";
 import {
   selectCurrentToken,
@@ -26,15 +26,10 @@ const Home = () => {
   if (user == "statistician")
     return (
       // eslint-disable-next-line react/no-children-prop
-      <div className="bg-white">
-        <>
-          <HRExpertLayout>
-            <p>
-              {token}
-              Here is a statistician
-            </p>
-          </HRExpertLayout>
-        </>
+      <div className="bg-white h-screen">
+        <Layout page="statistician">
+          <div>{/** Here is a statistician*/}</div>
+        </Layout>
       </div>
     );
 };
