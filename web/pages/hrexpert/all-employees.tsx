@@ -1,4 +1,4 @@
-import HRExpertLayout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/HRExpertlayout";
 import React, { useState } from "react";
 
 type Employee = {
@@ -44,7 +44,7 @@ const EmployeeTable = () => {
 
   return (
     <div className="bg-white h-screen">
-      <HRExpertLayout>
+      <Layout page="hrexpert">
         <div className="bg-white text-black p-4">
           <input
             type="text"
@@ -88,7 +88,7 @@ const EmployeeTable = () => {
             </table>
           </div>
         </div>
-      </HRExpertLayout>
+      </Layout>
     </div>
   );
 };

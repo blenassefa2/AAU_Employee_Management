@@ -1,4 +1,4 @@
-import HRExpertLayout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/HRExpertlayout";
 import { useState, useEffect } from "react";
 import {
   BarChart,
@@ -32,7 +32,7 @@ const EvaluationResults = () => {
 
   return (
     <div className="bg-white text-black h-screen ">
-      <HRExpertLayout>
+      <Layout page="hrexpert">
         <div className="flex flex-col mt-7 ml-7">
           <h2 className="text-lg font-semibold my-4">
             Performance Evaluation Results
@@ -53,7 +53,7 @@ const EvaluationResults = () => {
             </BarChart>
           </div>
         </div>
-      </HRExpertLayout>
+      </Layout>
     </div>
   );
 };

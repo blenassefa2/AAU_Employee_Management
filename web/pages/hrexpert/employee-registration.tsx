@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import HRExpertLayout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/HRExpertlayout";
 function EmployeeRegistration() {
   const [employee, setEmployee] = useState({
     firstName: "",
@@ -74,7 +74,7 @@ function EmployeeRegistration() {
   };
   return (
     <div className="bg-white ">
-      <HRExpertLayout>
+      <Layout page="hrexpert">
         <div className="bg-white">
           {/* Use a range input element to create the line with the red circle */}
           <div className="mt-10 mx-[10%] w-[80%]">
@@ -909,7 +909,7 @@ function EmployeeRegistration() {
             </div>
           </div>
         </div>
-      </HRExpertLayout>
+      </Layout>
     </div>
   );
 }
