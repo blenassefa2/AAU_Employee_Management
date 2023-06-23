@@ -10,7 +10,7 @@ import { connect } from "./utils/db/setupDB";
 import accountRouter from "./resources/account/account.router";
 import notificationRouter from "./resources/notification/notification.router";
 import authRouter from "./utils/auth/authRouter";
-import corsOptions from "./corsOptions";
+import corsOptions, { allowedOrigins } from "./corsOptions";
 import appealRouter from "./resources/appeal/appeal.router";
 import EvaluationRouter from "./resources/evaluation/evaluation.router";
 
@@ -19,7 +19,7 @@ export const app = express();
 // configuration
 app.disable("x-powered-by");
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://final-project-nine-pi.vercel.app");
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigins.join(", "));
   // Add other necessary CORS headers here if needed
   next();
 });
