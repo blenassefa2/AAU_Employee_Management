@@ -44,8 +44,15 @@ export async function addAppeal(req: Request, res: Response, next: NextFunction)
       };
       return next();
     }
-
     const employee = await Account.findById(accountId);
+    if (employee == null)
+    {
+    res.locals.json = {
+        statusCode: 400,
+        data: "Invalid accountId",
+      };
+      return next();
+    }
     const employeeDetail = await EmployeeDetail.findOne({
       employeeId: employee._id,
     });
