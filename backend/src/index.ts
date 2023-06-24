@@ -10,7 +10,7 @@ import { connect } from "./utils/db/setupDB";
 import accountRouter from "./resources/account/account.router";
 import notificationRouter from "./resources/notification/notification.router";
 import authRouter from "./utils/auth/authRouter";
-import corsOptions from "./corsOptions";
+import corsOptions, { allowedOrigins } from "./corsOptions";
 import appealRouter from "./resources/appeal/appeal.router";
 import EvaluationRouter from "./resources/evaluation/evaluation.router";
 import leaveRequestRouter from "./resources/leaveRequest/leaveRequest.router";
@@ -21,12 +21,13 @@ export const app = express();
 // configuration
 app.disable("x-powered-by");
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:19006");
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigins.join(", "));
   // Add other necessary CORS headers here if needed
   next();
 });
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(urlencoded({ extended: true, limit: "50mb" }));
@@ -58,3 +59,4 @@ export const start = async () => {
     console.error(e);
   }
 };
+start();

@@ -13,9 +13,10 @@ import { useRouter } from "next/router";
 
 type HRExpertLayoutProps = {
   children: ReactNode;
+  page: string;
 };
 
-const HRExpertLayout: React.FC<HRExpertLayoutProps> = ({ children }) => {
+const Layout: React.FC<HRExpertLayoutProps> = ({ children, page }) => {
   const token = useSelector(selectCurrentToken);
   const user = useSelector(selectCurrentUser);
   const route = useRouter();
@@ -24,19 +25,17 @@ const HRExpertLayout: React.FC<HRExpertLayoutProps> = ({ children }) => {
   };
   useEffect(() => {
     if (!user) {
-      redirectToAnotherPage("/");
-    } else if (user == "employee") {
-      redirectToAnotherPage("/employee");
-    } else if (user == "statistician") {
-      redirectToAnotherPage("/statistician");
+      redirectToAnotherPage("");
+    } else if (user != page) {
+      redirectToAnotherPage(`${page}`);
     }
   }, []);
-  if (user == "hrexpert")
+  if (user == page)
     return (
       <div>
         <Header />
         <div className="flex">
-          <Sidebar goto={"/hrexpert"} />
+          <Sidebar goto={`/${page}`} />
           <main className="flex-grow  h-[90%]">{children}</main>
         </div>
       </div>
@@ -44,4 +43,4 @@ const HRExpertLayout: React.FC<HRExpertLayoutProps> = ({ children }) => {
   return <>redirecting</>;
 };
 
-export default HRExpertLayout;
+export default Layout;

@@ -1,4 +1,4 @@
-import HRExpertLayout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/HRExpertlayout";
 import React, { useState } from "react";
 
 const LeaveRequest = () => {
@@ -21,7 +21,7 @@ const LeaveRequest = () => {
 
   return (
     <div className="bg-white">
-      <HRExpertLayout>
+      <Layout page="hrexpert">
         <div className="container ml-10 p-4 max-w-xl">
           <h1 className="text-3xl font-bold mb-3 text-black mt-2 ml-30">
             Leave Request
@@ -182,7 +182,7 @@ const LeaveRequest = () => {
             </div>
           )}
         </div>
-      </HRExpertLayout>
+      </Layout>
     </div>
   );
 };

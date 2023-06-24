@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import HRExpertLayout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/HRExpertlayout";
 import { useSelector } from "react-redux";
 import {
   selectCurrentToken,
@@ -26,9 +26,9 @@ const Home = () => {
   if (user == "employee")
     return (
       // eslint-disable-next-line react/no-children-prop
-      <div className="bg-white">
+      <div className="bg-white h-screen">
         <>
-          <HRExpertLayout>Here is an employee</HRExpertLayout>
+          <Layout page="employee">Here is an employee</Layout>
         </>
       </div>
     );
