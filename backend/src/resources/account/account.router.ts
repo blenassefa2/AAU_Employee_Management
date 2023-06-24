@@ -13,6 +13,7 @@ import {
   resetPassword,
   changePassword,
   search,
+  convertToExcel,
 } from "./account.controller";
 import { authorize } from "../../middleware/authorization";
 import {upload} from "../../middleware/multer";
@@ -28,6 +29,7 @@ accountRouter.post("/changePassword/:id", changePassword, respond);
 accountRouter.post("/reject/:id", rejectNotification, respond);
 accountRouter.get("/getById", authorize, getAccountById, respond);
 accountRouter.get("/",  search, respond);
+accountRouter.get("/download", convertToExcel, respond);
 accountRouter.get("/search", getAccount, respond);
 accountRouter.put("/updateById/:id", authorize, updateAccountById, respond);
 accountRouter.delete("/deleteById/:id", deleteAccountById, respond);

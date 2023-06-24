@@ -36,13 +36,15 @@ app.use(morgan("dev"));
 app.use("/api/v1/account", accountRouter);
 app.use("/api/v1/notification", notificationRouter);
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/appeal", appealRouter)
+app.use("/api/v1/appeal", appealRouter);
 app.use("/api/v1/evaluation", EvaluationRouter);
 app.use("/api/v1/leave", leaveRequestRouter);
 app.use("/api/v1/employeeDetails", employeeDetailRouter);
 app.use((req, res) => {
   res.json({ data: "Hello World!" });
 });
+
+//export const dataMemory = new Map();
 
 // Start of server
 export const start = async () => {

@@ -196,7 +196,27 @@ export const getAllEmployeeDetails = async (
     return next();
   }
 };
-
+export const getEmployeeForDepartmenrHead = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const _id = req.params.id;
+  try {
+    const employee = await EmployeeDetail.find({departmentHead: _id});
+    res.locals.json = {
+      statusCode: 200,
+      data: employee,
+    };
+    return next();
+  } catch (error) {
+    res.locals.json = {
+      statusCode: 500,
+      message: "error occurred",
+    };
+    return next();
+  }
+};
 export const getEmployeeDetailById = async (
   req: Request,
   res: Response,

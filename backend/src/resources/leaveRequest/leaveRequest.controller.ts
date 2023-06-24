@@ -98,3 +98,24 @@ const _id = req.params.id;
     return next();
   }
 };
+export const deleteLeaveRequestById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const _id = req.params.id;
+  try {
+    const leaveRequest = await LeaveRequest.deleteOne({_id:_id});
+    res.locals.json = {
+      statusCode: 200,
+      data: leaveRequest,
+    };
+    return next();
+  } catch (error) {
+    res.locals.json = {
+      statusCode: 500,
+      message: "error occurred",
+    };
+    return next();
+  }
+};
