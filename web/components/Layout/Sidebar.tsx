@@ -56,7 +56,7 @@ const Sidebar = ({ goto }: SidebarProps) => {
             <HiHome className="h-6 w-6 mr-2" />
             <span className="text-lg">Home</span>
           </li>
-          {goto == "/hrexpert" && (
+          {goto == "/hrexpert" || "/statistician" && (
             <li
               className="flex items-center mb-4 hover:bg-[#3B7CBD] hover:text-white p-3 rounded"
               onClick={() => {

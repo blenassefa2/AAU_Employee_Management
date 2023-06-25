@@ -18,7 +18,7 @@ const HomeScreenBody = ({ data }) => {
     id_: identityCardNumber,
     email,
     role: departmentSpeciality,
-  } = data;
+  } = data.data;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
