@@ -1,4 +1,5 @@
-import { Account, IAccountInterface } from "./account.model";
+import { Account, IAccountInterface, IAccountInterface } from "./account.model";
+import { Notification } from "../notification/notification.model";
 import { Notification } from "../notification/notification.model";
 import bcrypt from "bcryptjs";
 import e, { NextFunction, Request, Response } from "express";
@@ -10,9 +11,6 @@ import cloudinary from "../../config/cloudinary";
 import { ObjectId } from "mongodb";
 import { reject } from "lodash";
 import { setDefaultResultOrder } from "dns";
-
-// Usage
-
 export const registerMany = async (
   req: Request,
   res: Response,

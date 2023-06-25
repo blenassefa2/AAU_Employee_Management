@@ -71,7 +71,6 @@ export const AccountSchema: mongoose.Schema<IAccountInterface> = new mongoose.Sc
     type: String,
     required: false,
   },
-
 });
 
 export const Account = mongoose.model<IAccountInterface>(
