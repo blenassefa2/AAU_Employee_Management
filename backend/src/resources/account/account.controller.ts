@@ -1,5 +1,4 @@
-import { Account, IAccountInterface, IAccountInterface } from "./account.model";
-import { Notification } from "../notification/notification.model";
+import { Account, IAccountInterface} from "./account.model";
 import { Notification } from "../notification/notification.model";
 import bcrypt from "bcryptjs";
 import e, { NextFunction, Request, Response } from "express";
