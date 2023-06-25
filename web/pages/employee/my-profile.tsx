@@ -58,17 +58,39 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
 }) => {
   return (
     <div>
-      <p>Full Name: {fullName}</p>
-      <p>ID Number: {idNumber}</p>
-      <p>Age: {age}</p>
-      <p>Phone Number: {phoneNumber}</p>
-      <p>Email: {email}</p>
-      <p>Marital Status: {maritalStatus}</p>
-      <p>Nationality: {nationality}</p>
-      <p>Town: {town}</p>
-      <p>Woreda: {woreda}</p>
-      <p>Kebele: {kebele}</p>
-      <p>House Number: {houseNumber}</p>
+      <p>
+        <strong>Full Name:</strong> &nbsp;{fullName}
+      </p>
+      <p>
+        <strong>ID Number:</strong>&nbsp;{idNumber}
+      </p>
+      <p>
+        <strong>Age: </strong>&nbsp;{age}
+      </p>
+      <p>
+        <strong>Phone Number:</strong>&nbsp;{phoneNumber}
+      </p>
+      <p>
+        <strong>Email:</strong> &nbsp;{email}
+      </p>
+      <p>
+        <strong>Marital Status: </strong>&nbsp;{maritalStatus}
+      </p>
+      <p>
+        <strong>Nationality:</strong>&nbsp; {nationality}
+      </p>
+      <p>
+        <strong>Town:</strong>&nbsp; {town}
+      </p>
+      <p>
+        <strong>Woreda:</strong>&nbsp; {woreda}
+      </p>
+      <p>
+        <strong>Kebele:</strong>&nbsp; {kebele}
+      </p>
+      <p>
+        <strong>House Number: </strong>&nbsp;{houseNumber}
+      </p>
     </div>
   );
 };
@@ -81,10 +103,18 @@ const EmploymentDetail: React.FC<EmploymentDetailProps> = ({
 }) => {
   return (
     <div>
-      <p>Employment Date: {employmentDate}</p>
-      <p>Employee Status: {employeeStatus}</p>
-      <p>Job Title: {jobTitle}</p>
-      <p>Salary: {salary}</p>
+      <p>
+        <strong>Employment Date: </strong>&nbsp;{employmentDate}
+      </p>
+      <p>
+        <strong>Employee Status:</strong>&nbsp; {employeeStatus}
+      </p>
+      <p>
+        <strong>Job Title: </strong>&nbsp;{jobTitle}
+      </p>
+      <p>
+        <strong>Salary:</strong>&nbsp; {salary}
+      </p>
     </div>
   );
 };
@@ -96,20 +126,58 @@ const FamilyInformation: React.FC<FamilyInformationProps> = ({
 }) => {
   return (
     <div>
-      <h2>Father Information</h2>
-      <p>Full Name: {father.fullName}</p>
-      <p>Phone Number: {father.phoneNumber}</p>
-      <p>Email: {father.email}</p>
-      <p>Nationality: {father.nationality}</p>
-      <h2>Mother and Emergency Contact Information</h2>
-      <p>Full Name: {mother.fullName}</p>
-      <p>Phone Number: {mother.phoneNumber}</p>
-      <p>Email: {mother.email}</p>
-      <p>Nationality: {mother.nationality}</p>
-      <p>Emergency Contact Full Name: {emergencyContact.fullName}</p>
-      <p>Emergency Contact Phone Number: {emergencyContact.phoneNumber}</p>
-      <p>Emergency Contact Email: {emergencyContact.email}</p>
-      <p>Emergency Contact Relationship: {emergencyContact.relationship}</p>
+      <div style={{ marginBottom: "20px" }}>
+        <h1 style={{ color: "rgba(59, 124, 189, 1)" }}>
+          <strong>Father Information</strong>
+        </h1>
+        <p>
+          <strong>Full Name: </strong>&nbsp;{father.fullName}
+        </p>
+        <p>
+          <strong>Phone Number: </strong>&nbsp; {father.phoneNumber}
+        </p>
+        <p>
+          <strong>Email: </strong>&nbsp;{father.email}
+        </p>
+        <p>
+          <strong>Nationality: </strong>&nbsp;{father.nationality}
+        </p>
+      </div>
+      <div style={{ marginBottom: "20px" }}>
+        <h1 style={{ color: "rgba(59, 124, 189, 1)" }}>
+          <strong>Mother Contact Information</strong>
+        </h1>
+        <p>
+          <strong>Full Name: </strong>&nbsp;{mother.fullName}
+        </p>
+        <p>
+          <strong>Phone Number: </strong>&nbsp;{mother.phoneNumber}
+        </p>
+        <p>
+          <strong>Email:</strong>&nbsp;{mother.email}
+        </p>
+        <p>
+          <strong>Nationality: </strong>&nbsp;{mother.nationality}
+        </p>
+      </div>
+      <div style={{ marginBottom: "30px" }}>
+        <h1 style={{ color: "rgba(59, 124, 189, 1)" }}>
+          <strong>Emergency Contact Information</strong>
+        </h1>
+        <p>
+          <strong> Full Name:</strong> &nbsp;{emergencyContact.fullName}
+        </p>
+        <p>
+          <strong> Phone Number: &nbsp;</strong>
+          {emergencyContact.phoneNumber}
+        </p>
+        <p>
+          <strong> Email: </strong>&nbsp;{emergencyContact.email}
+        </p>
+        <p>
+          <strong> Relationship:</strong> &nbsp;{emergencyContact.relationship}
+        </p>
+      </div>
     </div>
   );
 };
@@ -162,19 +230,21 @@ const ProfilePage: React.FC = () => {
           </button>
         </div>
         {personalInfoVisible && (
-          <PersonalInformation
-            fullName="John Doe"
-            idNumber="1234567890123"
-            age={30}
-            phoneNumber="555-555-5555"
-            email="john.doe@example.com"
-            maritalStatus="Single"
-            nationality="American"
-            town="Addis Ababa"
-            woreda="Bole"
-            kebele="22"
-            houseNumber="123"
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <PersonalInformation
+              fullName="John Doe"
+              idNumber="1234567890123"
+              age={30}
+              phoneNumber="555-555-5555"
+              email="john.doe@example.com"
+              maritalStatus="Single"
+              nationality="American"
+              town="Addis Ababa"
+              woreda="Bole"
+              kebele="22"
+              houseNumber="123"
+            />
+          </div>
         )}
         {employmentDetailVisible && (
           <EmploymentDetail
