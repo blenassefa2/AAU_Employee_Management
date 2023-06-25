@@ -8,6 +8,7 @@ import {
   deleteNotificationById,
   updateNotificationById,
   myNotifications,
+  getNotificationByReciver,
 } from "./notification.controller";
 import { authorize } from "../../middleware/authorization";
 const notificationRouter = Router();
@@ -21,6 +22,11 @@ notificationRouter.get("/allNotifications", getAllNotifications, respond);
 notificationRouter.get(
   "/getNotificationById/:id",
   getNotificationById,
+  respond
+);
+notificationRouter.get(
+  "/getNotificationByReciver/:id",
+  getNotificationByReciver,
   respond
 );
 notificationRouter.get("/myNotifications", authorize, myNotifications, respond);
