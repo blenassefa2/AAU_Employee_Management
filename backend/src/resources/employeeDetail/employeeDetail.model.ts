@@ -6,7 +6,7 @@ export interface IEmployeeDetailInterface {
   departmentHead: mongoose.Schema.Types.ObjectId;
   age: number;
   dateOfBirth: String;
-  EmoploymentDate: String;
+  EmoploymentDate: Date;
   EmoploymentStatus: String;
   JobTitle: String;
   Salary: String;
@@ -26,6 +26,7 @@ export interface IEmployeeDetailInterface {
   emergencyWereda: String;
   emergencyKebele: String;
   emergencyHouse: String;
+  remaningLeaveDays: Number;
 }
 export const EmployeeDetailSchema: mongoose.Schema<IEmployeeDetailInterface> =
   new mongoose.Schema({
@@ -50,7 +51,7 @@ export const EmployeeDetailSchema: mongoose.Schema<IEmployeeDetailInterface> =
       required: false,
     },
     EmoploymentDate: {
-      type: String,
+      type: Date,
       required: true,
     },
     EmoploymentStatus: {
@@ -127,6 +128,10 @@ export const EmployeeDetailSchema: mongoose.Schema<IEmployeeDetailInterface> =
     },
     emergencyHouse: {
       type: String,
+      required: true,
+    },
+    remaningLeaveDays: {
+      type: Number,
       required: true,
     },
   });

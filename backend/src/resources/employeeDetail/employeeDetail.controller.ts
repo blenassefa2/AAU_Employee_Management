@@ -23,6 +23,20 @@ export const creatMany = async(req: Request,
     
     console.log(employeeData)
     const employee = employeeData as IEmployeeDetailInterface;
+    const startDate: Date = new Date(employee.EmoploymentDate);
+
+    const currentDate: Date = new Date();
+
+    // Calculate the total number of days between start date and current date
+    const totalDays = Math.ceil(
+      (+currentDate - +startDate) / (1000 * 60 * 60 * 24)
+    );
+
+    // Calculate the number of years between start date and current date
+    const years = Math.floor(totalDays / 365);
+
+    // Calculate the total leave days considering annual entitlement of 21 days per year
+    const totalLeaveDays = years * 21;
     const newEmployee = new EmployeeDetail({
       employeeId: employee.employeeId,
       departmentName: employee.departmentName,
@@ -49,6 +63,7 @@ export const creatMany = async(req: Request,
       emergencyWereda: employee.emergencyWereda,
       emergencyKebele: employee.emergencyKebele,
       emergencyHouse: employee.emergencyHouse,
+      remaningLeaveDays: totalLeaveDays,
     });
 
     await newEmployee.save();
@@ -101,6 +116,20 @@ export const createEmployeeDetail = async (
   emergencyWereda,
   emergencyKebele,
   emergencyHouse } = req.body;
+  const startDate: Date = new Date(EmoploymentDate);
+
+  const currentDate: Date = new Date();
+
+  // Calculate the total number of days between start date and current date
+  const totalDays = Math.ceil(
+    (+currentDate - +startDate) / (1000 * 60 * 60 * 24)
+  );
+
+  // Calculate the number of years between start date and current date
+  const years = Math.floor(totalDays / 365);
+
+  // Calculate the total leave days considering annual entitlement of 21 days per year
+  const totalLeaveDays = years * 21;
   console.log(departmentHead, req.body)
     const newEmployeeDetail = await EmployeeDetail.create({
       employeeId,
@@ -128,6 +157,7 @@ export const createEmployeeDetail = async (
       emergencyWereda,
       emergencyKebele,
       emergencyHouse,
+      remaningLeaveDays: totalLeaveDays,
     });
     if (!newEmployeeDetail) {
       res.locals.json = {
@@ -159,7 +189,7 @@ export const updateEmployeeDetailById = async (
   try{
   const data = req.body;
     const done = await EmployeeDetail.updateOne(
-      { _id: req.params.id },
+      { _id: res.locals._id },
       { $set: data }
     );
     res.locals.json = {
@@ -201,7 +231,7 @@ export const getEmployeeForDepartmenrHead = async (
   res: Response,
   next: NextFunction
 ) => {
-  const _id = req.params.id;
+  const _id = res.locals._id;
   try {
     const employee = await EmployeeDetail.find({departmentHead: _id});
     res.locals.json = {
@@ -222,7 +252,7 @@ export const getEmployeeDetailById = async (
   res: Response,
   next: NextFunction
 ) => {
-  const _id = req.params.id;
+  const _id = res.locals._id;
   try {
     const notification = await EmployeeDetail.findById(_id);
     res.locals.json = {
@@ -244,7 +274,7 @@ export const deleteEmployeeDetailById = async (
   res: Response,
   next: NextFunction
 ) => {
-  const _id = req.params.id;
+  const _id = res.locals._id;
   try {
     const notification = await EmployeeDetail.findByIdAndDelete(_id);
     res.locals.json = {
@@ -266,7 +296,8 @@ export const getEmployeeDetailByEmployeeId = async (
   next: NextFunction
 ) => {
   try {
-    const id = req.params.id;
+    //const id = res.locals._id;
+    const id = req.params.id
     const EmployeeDetails = await EmployeeDetail.find({
       employeeId: id,
     });

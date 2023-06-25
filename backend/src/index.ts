@@ -15,6 +15,8 @@ import appealRouter from "./resources/appeal/appeal.router";
 import EvaluationRouter from "./resources/evaluation/evaluation.router";
 import leaveRequestRouter from "./resources/leaveRequest/leaveRequest.router";
 import employeeDetailRouter from "./resources/employeeDetail/employeeDetail.router";
+import Resultrouter from "./resources/results/results.router";
+import TagRouter from "./resources/tag/tag.routers";
 
 export const app = express();
 
@@ -41,6 +43,8 @@ app.use("/api/v1/appeal", appealRouter);
 app.use("/api/v1/evaluation", EvaluationRouter);
 app.use("/api/v1/leave", leaveRequestRouter);
 app.use("/api/v1/employeeDetails", employeeDetailRouter);
+app.use("/api/v1/results", Resultrouter);
+app.use("/api/v1/tag", TagRouter);
 app.use((req, res) => {
   res.json({ data: "Hello World!" });
 });

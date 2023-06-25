@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { Evaluation } from "./evaluation.model";
+import mongoose from "mongoose";
 
 
 export async function getAllEvaluation(
@@ -50,18 +51,25 @@ export async function addEvaluation(
   res: Response,
   next: NextFunction
 ) {
-  const evaluation = new Evaluation({
-    title: req.body.title,
-    question: req.body.question,
-  });
   try {
-    const savedEvaluation = await evaluation.save();
-    res.locals.json = {
-      statusCode: 200,
-      data: savedEvaluation,
-    };
+    let tag = req.body.id;
+     tag = new mongoose.Types.ObjectId(tag);
+    console.log(tag);
+   
+      const evaluation = new Evaluation({
+        title: req.body.title,
+        question: req.body.question,
+        tag: tag,
+      });
+      console.log(evaluation)
+      const savedEvaluation = await evaluation.save();
+      (res.locals.json = {
+        statusCode: 200,
+        data: savedEvaluation,
+      });
     return next();
   } catch (err) {
+    console.log(err)
     res.locals.json = {
       statusCode: 404,
       data: "Error",

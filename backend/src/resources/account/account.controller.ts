@@ -164,7 +164,7 @@ export const updateAccountById = async (
   next: NextFunction
 ) => {
   const { firstName, lastName, email, phoneNumber } = req.body;
-  const userId = req.params.id;
+  const userId = res.locals._id;
   await Account.findByIdAndUpdate(
     { _id: userId },
     { firstName, lastName, email, phoneNumber }
@@ -198,7 +198,7 @@ export const deleteAccountById = (
   res: Response,
   next: NextFunction
 ) => {
-  const userId = req.params.id;
+  const userId = res.locals._id;
 
   Account.deleteOne({ _id: userId })
     .then((result) => {
@@ -230,7 +230,7 @@ export const forgetPassword = async (
   next: NextFunction
 ) => {
   try {
-    const sender = req.params.id;
+    const sender = res.locals._id;
     const user = await Account.findById(sender);
     const tag = "Emergent";
     const reciever = new ObjectId("647c9b8b18398bdc020ee99b");
@@ -299,7 +299,7 @@ export const aprove = async (
   try {
     const randomPassword: string = randomstring.generate(10);
     const hashedPassword = await bcrypt.hash(randomPassword, 10);
-    const sender = req.params.id;
+    const sender = res.locals._id;
     const result = await Account.updateOne(
       { _id: sender },
       { $set: { password: hashedPassword } }
@@ -346,7 +346,7 @@ export const rejectNotification = async (
   next: NextFunction
 ) => {
   try {
-    const sender = req.params.id;
+    const sender = res.locals._id;
     const user = await Account.findById(sender);
     const mailOptions = {
       from: "aauhumanresource@gmail.com",
@@ -380,11 +380,11 @@ export const resetPassword = async (
 ) => {
   try {
     const hashedpass = await bcrypt.hash(req.body.password, 10);
-    const userName = req.body.userName;
+  
     const sender = req.params.id;
     const result = await Account.updateOne(
       { _id: sender },
-      { $set: { password: hashedpass, userName: userName } }
+      { $set: { password: hashedpass } }
     );
 
     if (result != null) {
@@ -427,10 +427,10 @@ export const changePassword = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body.password);
+   
     const hashedpass = await bcrypt.hash(req.body.password, 10);
 
-    const sender = req.params.id;
+    const sender = res.locals._id;
     const result = await Account.updateOne(
       { _id: sender },
       { $set: { password: hashedpass } }
