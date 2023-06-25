@@ -17,6 +17,7 @@ import leaveRequestRouter from "./resources/leaveRequest/leaveRequest.router";
 import employeeDetailRouter from "./resources/employeeDetail/employeeDetail.router";
 import Resultrouter from "./resources/results/results.router";
 import TagRouter from "./resources/tag/tag.routers";
+import departmentRouter from "./resources/department/department.router";
 
 export const app = express();
 
@@ -45,6 +46,7 @@ app.use("/api/v1/leave", leaveRequestRouter);
 app.use("/api/v1/employeeDetails", employeeDetailRouter);
 app.use("/api/v1/results", Resultrouter);
 app.use("/api/v1/tag", TagRouter);
+app.use("/api/v1/department", departmentRouter);
 app.use((req, res) => {
   res.json({ data: "Hello World!" });
 });

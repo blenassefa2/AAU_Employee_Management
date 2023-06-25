@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { EmployeeDetail, IEmployeeDetailInterface } from "./employeeDetail.model";
 import cloudinary from "../../config/cloudinary";
 import XLSX from "xlsx";
+import { department } from "../department/department.model";
 export const creatMany = async(req: Request,
   res: Response,
   next: NextFunction) => {
@@ -34,13 +35,15 @@ export const creatMany = async(req: Request,
 
     // Calculate the number of years between start date and current date
     const years = Math.floor(totalDays / 365);
-
+    const departmentName =  employee.departmentName;
+    const foundDepartment = await department.findOne({ name: departmentName });
+    const departmentHead = await foundDepartment._id
     // Calculate the total leave days considering annual entitlement of 21 days per year
     const totalLeaveDays = years * 21;
     const newEmployee = new EmployeeDetail({
       employeeId: employee.employeeId,
       departmentName: employee.departmentName,
-      departmentHead: employee.departmentHead,
+      departmentHead: departmentHead,
       age: employee.age,
       dateOfBirth: employee.dateOfBirth,
       EmoploymentDate: employee.EmoploymentDate,
@@ -93,7 +96,7 @@ export const createEmployeeDetail = async (
   try {
     const { employeeId,
   departmentName, 
-  departmentHead,
+  
   age,
   dateOfBirth,
   EmoploymentDate,
@@ -127,7 +130,9 @@ export const createEmployeeDetail = async (
 
   // Calculate the number of years between start date and current date
   const years = Math.floor(totalDays / 365);
-
+  const name = req.body.name;
+    const foundDepartment = await department.findOne({name:departmentName});
+const departmentHead = foundDepartment._id
   // Calculate the total leave days considering annual entitlement of 21 days per year
   const totalLeaveDays = years * 21;
   console.log(departmentHead, req.body)
@@ -296,8 +301,8 @@ export const getEmployeeDetailByEmployeeId = async (
   next: NextFunction
 ) => {
   try {
-    //const id = res.locals._id;
-    const id = req.params.id
+    const id = res.locals._id;
+    //const id = req.params.id
     const EmployeeDetails = await EmployeeDetail.find({
       employeeId: id,
     });
