@@ -1,858 +1,214 @@
-import React, { useState } from "react";
+import Layout from "@/components/Layout/Layout";
+import { useState } from "react";
 
-function EmployeeRegistration() {
-  const [employee, setEmployee] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    address: "",
-    maritalStatus: "",
-  });
+interface PersonalInformationProps {
+  fullName: string;
+  idNumber: string;
+  age: number;
+  phoneNumber: string;
+  email: string;
+  maritalStatus: string;
+  nationality: string;
+  town: string;
+  woreda: string;
+  kebele: string;
+  houseNumber: string;
+}
 
-  const [employment, setEmployment] = useState({
-    jobTitle: "",
-    company: "",
-    salary: 0,
-  });
+interface EmploymentDetailProps {
+  employmentDate: string;
+  employeeStatus: string;
+  jobTitle: string;
+  salary: number;
+}
 
-  const [familyBackground, setFamilyBackground] = useState({
-    fatherName: "",
-    fatherPhone: "",
-    fatherEmail: "",
-    fatherNationality: "",
-    motherName: "",
-    motherPhone: "",
-    motherEmail: "",
-    motherNationality: "",
-    emergencyContactName: "",
-    emergencyContactWoreda: "",
-    emergencyContactPhone: "",
+interface FamilyInformationProps {
+  father: {
+    fullName: string;
+    phoneNumber: string;
+    email: string;
+    nationality: string;
+  };
+  mother: {
+    fullName: string;
+    phoneNumber: string;
+    email: string;
+    nationality: string;
+  };
+  emergencyContact: {
+    fullName: string;
+    phoneNumber: string;
+    email: string;
+    relationship: string;
+  };
+}
 
-    emergencyContactEmail: "",
-    emergencyContactTown: "",
-    emergencyContactKebele: "",
-  });
+const PersonalInformation: React.FC<PersonalInformationProps> = ({
+  fullName,
+  idNumber,
+  age,
+  phoneNumber,
+  email,
+  maritalStatus,
+  nationality,
+  town,
+  woreda,
+  kebele,
+  houseNumber,
+}) => {
+  return (
+    <div>
+      <p>Full Name: {fullName}</p>
+      <p>ID Number: {idNumber}</p>
+      <p>Age: {age}</p>
+      <p>Phone Number: {phoneNumber}</p>
+      <p>Email: {email}</p>
+      <p>Marital Status: {maritalStatus}</p>
+      <p>Nationality: {nationality}</p>
+      <p>Town: {town}</p>
+      <p>Woreda: {woreda}</p>
+      <p>Kebele: {kebele}</p>
+      <p>House Number: {houseNumber}</p>
+    </div>
+  );
+};
 
-  const [activeSlider, setActiveSlider] = useState("personal");
+const EmploymentDetail: React.FC<EmploymentDetailProps> = ({
+  employmentDate,
+  employeeStatus,
+  jobTitle,
+  salary,
+}) => {
+  return (
+    <div>
+      <p>Employment Date: {employmentDate}</p>
+      <p>Employee Status: {employeeStatus}</p>
+      <p>Job Title: {jobTitle}</p>
+      <p>Salary: {salary}</p>
+    </div>
+  );
+};
 
-  const handleSliderChange = (slider: React.SetStateAction<string>) => {
-    setActiveSlider(slider);
+const FamilyInformation: React.FC<FamilyInformationProps> = ({
+  father,
+  mother,
+  emergencyContact,
+}) => {
+  return (
+    <div>
+      <h2>Father Information</h2>
+      <p>Full Name: {father.fullName}</p>
+      <p>Phone Number: {father.phoneNumber}</p>
+      <p>Email: {father.email}</p>
+      <p>Nationality: {father.nationality}</p>
+      <h2>Mother and Emergency Contact Information</h2>
+      <p>Full Name: {mother.fullName}</p>
+      <p>Phone Number: {mother.phoneNumber}</p>
+      <p>Email: {mother.email}</p>
+      <p>Nationality: {mother.nationality}</p>
+      <p>Emergency Contact Full Name: {emergencyContact.fullName}</p>
+      <p>Emergency Contact Phone Number: {emergencyContact.phoneNumber}</p>
+      <p>Emergency Contact Email: {emergencyContact.email}</p>
+      <p>Emergency Contact Relationship: {emergencyContact.relationship}</p>
+    </div>
+  );
+};
+
+const ProfilePage: React.FC = () => {
+  const [personalInfoVisible, setPersonalInfoVisible] = useState(false);
+  const [employmentDetailVisible, setEmploymentDetailVisible] = useState(false);
+  const [familyInfoVisible, setFamilyInfoVisible] = useState(false);
+
+  const personalInfoButtonClickHandler = () => {
+    setPersonalInfoVisible(!personalInfoVisible);
+    setEmploymentDetailVisible(false);
+    setFamilyInfoVisible(false);
   };
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
-    const { name, value } = e.target;
-    setEmployee({ ...employee, [name]: value });
+  const employmentDetailButtonClickHandler = () => {
+    setEmploymentDetailVisible(!employmentDetailVisible);
+    setPersonalInfoVisible(false);
+    setFamilyInfoVisible(false);
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log("Employee: ", employee);
-    console.log("Employment: ", employment);
-    console.log("Family Background: ", familyBackground);
+  const familyInfoButtonClickHandler = () => {
+    setFamilyInfoVisible(!familyInfoVisible);
+    setPersonalInfoVisible(false);
+    setEmploymentDetailVisible(false);
   };
 
   return (
-    <>
-      <div className="flex justify-between mb-8">
-        <div className="flex justify-between mb-8"></div>
-
-        <button
-          className={`${
-            activeSlider === "personal"
-              ? "bg-blue-500 text-white"
-              : "text-gray-500"
-          } flex-1 rounded-md text-center py-2`}
-          onClick={() => handleSliderChange("personal")}
-        >
-          Personal Information
-        </button>
-        <button
-          className={`${
-            activeSlider === "employment"
-              ? "bg-blue-500 text-white"
-              : "text-gray-500"
-          } flex-1 rounded-md text-center py-2`}
-          onClick={() => handleSliderChange("employment")}
-        >
-          Employment Detail
-        </button>
-        <button
-          className={`${
-            activeSlider === "family"
-              ? "bg-blue-500 text-white"
-              : "text-gray-500"
-          } flex-1 rounded-md text-center py-2`}
-          onClick={() => handleSliderChange("family")}
-        >
-          Family Background
-        </button>
-      </div>
-      <div className="flex justify-center items-center h-screen p-8">
-        <div className="flex justify-between mb-8">
-          <div className="w-full max-w-lg">
-            {activeSlider === "personal" && (
-              <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="firstName"
-                    className="block font-medium text-gray-700"
-                  >
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    value={employee.firstName}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    placeholder="First name..."
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="lastName"
-                    className="block font-medium text-gray-700"
-                  >
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    value={employee.lastName}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block font-medium text-gray-700"
-                  >
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={employee.email}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block font-medium text-gray-700"
-                  >
-                    Age
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={employee.email}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block font-medium text-gray-700"
-                  >
-                    Town
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={employee.email}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block font-medium text-gray-700"
-                  >
-                    Woreda
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={employee.email}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block font-medium text-gray-700"
-                  >
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={employee.phone}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="maritalStatus"
-                    className="block font-medium text-gray-700"
-                  >
-                    Marital Status
-                  </label>
-                  <select
-                    id="maritalStatus"
-                    name="maritalStatus"
-                    value={employee.maritalStatus}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  >
-                    <option value="">Choose...</option>
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                    <option value="Widowed">Widowed</option>
-                  </select>
-                </div>
-                <div className="col-span-2">
-                  <label
-                    htmlFor="address"
-                    className="block font-medium text-gray-700"
-                  >
-                    Address
-                  </label>
-                  <textarea
-                    id="address"
-                    name="address"
-                    value={employee.address}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div className="ml-2 p-2 flex flex-col items-center justify-center border border-gray-300 rounded-md">
-                  <label htmlFor="image" className="cursor-pointer">
-                    <div className="w-6 h-6 bg-gray-200 rounded-md mb-1"></div>
-                    <span className="text-xs">Upload photo</span>
-                  </label>
-                  <input
-                    type="file"
-                    id="image"
-                    name="image"
-                    accept="image/*"
-                    onChange={handleChange}
-                    className="hidden"
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-              </form>
-            )}
-            {activeSlider === "employment" && (
-              <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="jobTitle"
-                    className="block font-medium text-gray-700 mt-4"
-                  >
-                    Employment Date
-                  </label>
-                  <input
-                    type="text"
-                    id="jobTitle"
-                    name="jobTitle"
-                    value={employment.jobTitle}
-                    onChange={(e) =>
-                      setEmployment({ ...employment, jobTitle: e.target.value })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="jobTitle"
-                    className="block font-medium text-gray-700 mt-4"
-                  >
-                    Job Title
-                  </label>
-                  <input
-                    type="text"
-                    id="jobTitle"
-                    name="jobTitle"
-                    value={employment.jobTitle}
-                    onChange={(e) =>
-                      setEmployment({ ...employment, jobTitle: e.target.value })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="salary"
-                    className="block font-medium text-gray-700 mt-4"
-                  >
-                    Salary
-                  </label>
-                  <input
-                    type="number"
-                    id="salary"
-                    name="salary"
-                    value={employment.salary}
-                    onChange={(e) =>
-                      setEmployment({
-                        ...employment,
-                        salary: parseInt(e.target.value),
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="salary"
-                    className="block font-medium text-gray-700 mt-4"
-                  >
-                    Joined In
-                  </label>
-                  <input
-                    type="number"
-                    id="salary"
-                    name="salary"
-                    value={employment.salary}
-                    onChange={(e) =>
-                      setEmployment({
-                        ...employment,
-                        salary: parseInt(e.target.value),
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <div className="flex text-sm text-gray-600">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                    >
-                      <span>Upload CV</span>
-                      <input
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        className="sr-only"
-                        onChange={handleChange}
-                      />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
-                  </div>
-                  <p className="text-xs text-gray-500">
-                    PNG, JPG, PDF up to 10MB
-                  </p>
-                </div>
-
-                <div></div>
-                <div className="col-span-2 flex justify-center mt-6"></div>
-              </form>
-            )}
-            {activeSlider === "family" && (
-              <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="fatherName"
-                    className="block font-medium text-gray-700"
-                  >
-                    Fathers Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="fatherName"
-                    name="fatherName"
-                    value={familyBackground.fatherName}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        fatherName: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                  <label
-                    htmlFor="fatherPhone"
-                    className="block font-medium text-gray-700"
-                  >
-                    Phone Number
-                  </label>
-                  <input
-                    type="text"
-                    id="fatherPhone"
-                    name="fatherPhone"
-                    value={familyBackground.fatherPhone}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        fatherPhone: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                  <label
-                    htmlFor="fatherEmail"
-                    className="block font-medium text-gray-700"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="fatherEmail"
-                    name="fatherEmail"
-                    value={familyBackground.fatherEmail}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        fatherEmail: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                  <label
-                    htmlFor="fatherNationality"
-                    className="block font-medium text-gray-700"
-                  >
-                    Nationality
-                  </label>
-                  <input
-                    type="text"
-                    id="fatherNationality"
-                    name="fatherNationality"
-                    value={familyBackground.fatherNationality}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        fatherNationality: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="motherName"
-                    className="block font-medium text-gray-700"
-                  >
-                    Mothers Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="motherName"
-                    name="motherName"
-                    value={familyBackground.motherName}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        motherName: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                  <label
-                    htmlFor="motherPhone"
-                    className="block font-medium text-gray-700"
-                  >
-                    Phone Number
-                  </label>
-                  <input
-                    type="text"
-                    id="motherPhone"
-                    name="motherPhone"
-                    value={familyBackground.motherPhone}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        motherPhone: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                  <label
-                    htmlFor="motherEmail"
-                    className="block font-medium text-gray-700"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="motherEmail"
-                    name="motherEmail"
-                    value={familyBackground.motherEmail}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        motherEmail: e.target.value,
-                      })
-                    }
-                    className="mt-1 blockw-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                  <label
-                    htmlFor="motherNationality"
-                    className="block font-medium text-gray-700"
-                  >
-                    Nationality
-                  </label>
-                  <input
-                    type="text"
-                    id="motherNationality"
-                    name="motherNationality"
-                    value={familyBackground.motherNationality}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        motherNationality: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="emergencyContactName"
-                    className="block font-medium text-gray-700"
-                  >
-                    Emergency Contact Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="emergencyContactName"
-                    name="emergencyContactName"
-                    value={familyBackground.emergencyContactName}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        emergencyContactName: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                  <label
-                    htmlFor="emergencyContactPhone"
-                    className="block font-medium text-gray-700"
-                  >
-                    Phone Number
-                  </label>
-                  <input
-                    type="text"
-                    id="emergencyContactPhone"
-                    name="emergencyContactPhone"
-                    value={familyBackground.emergencyContactPhone}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        emergencyContactPhone: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                  <label
-                    htmlFor="emergencyContactEmail"
-                    className="block font-medium text-gray-700"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="emergencyContactEmail"
-                    name="emergencyContactEmail"
-                    value={familyBackground.emergencyContactEmail}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        emergencyContactEmail: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                  <label
-                    htmlFor="emergencyContactWoreda"
-                    className="block font-medium text-gray-700"
-                  >
-                    Woreda
-                  </label>
-                  <input
-                    type="text"
-                    id="emergencyContactWoreda"
-                    name="emergencyContactWoreda"
-                    value={familyBackground.emergencyContactWoreda}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        emergencyContactWoreda: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="emergencyContactTown"
-                    className="block font-medium text-gray-700"
-                  >
-                    Town
-                  </label>
-                  <input
-                    type="text"
-                    id="emergencyContactTown"
-                    name="emergencyContactTown"
-                    value={familyBackground.emergencyContactTown}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        emergencyContactTown: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                  <label
-                    htmlFor="emergencyContactKebele"
-                    className="block font-medium text-gray-700"
-                  >
-                    Kebele
-                  </label>
-                  <input
-                    type="text"
-                    id="emergencyContactKebele"
-                    name="emergencyContactKebele"
-                    value={familyBackground.emergencyContactKebele}
-                    onChange={(e) =>
-                      setFamilyBackground({
-                        ...familyBackground,
-                        emergencyContactTown: e.target.value,
-                      })
-                    }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                    required
-                    style={{
-                      width: "100%",
-                      height: "48px",
-                      marginBottom: "16px",
-                    }}
-                  />
-                </div>
-                <div className="col-span-2 flex justify-end mt-8">
-                  <button className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600 mr-4">
-                    Edit
-                  </button>
-                  <button className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">
-                    Save and Next
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
+    <Layout page="employee">
+      <div className="flex justify-center items-center flex-col space-y-4">
+        <h1 className="text-3xl font-bold">Profile Page</h1>
+        <div className="space-x-4">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            onClick={personalInfoButtonClickHandler}
+          >
+            Personal Information
+          </button>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            onClick={employmentDetailButtonClickHandler}
+          >
+            Employment Details
+          </button>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            onClick={familyInfoButtonClickHandler}
+          >
+            Family Information
+          </button>
         </div>
+        {personalInfoVisible && (
+          <PersonalInformation
+            fullName="John Doe"
+            idNumber="1234567890123"
+            age={30}
+            phoneNumber="555-555-5555"
+            email="john.doe@example.com"
+            maritalStatus="Single"
+            nationality="American"
+            town="Addis Ababa"
+            woreda="Bole"
+            kebele="22"
+            houseNumber="123"
+          />
+        )}
+        {employmentDetailVisible && (
+          <EmploymentDetail
+            employmentDate="01/01/2020"
+            employeeStatus="Active"
+            jobTitle="Software Engineer"
+            salary={50000}
+          />
+        )}
+        {familyInfoVisible && (
+          <FamilyInformation
+            father={{
+              fullName: "Peter Smith",
+              phoneNumber: "111-222-3333",
+              email: "peter.smith@example.com",
+              nationality: "American",
+            }}
+            mother={{
+              fullName: "Jane Smith",
+              phoneNumber: "444-555-6666",
+              email: "jane.smith@example.com",
+              nationality: "American",
+            }}
+            emergencyContact={{
+              fullName: "John Doe",
+              phoneNumber: "777-888-9999",
+              email: "john.doe@example.com",
+              relationship: "Friend",
+            }}
+          />
+        )}
       </div>
-    </>
+    </Layout>
   );
-}
+};
 
-interface DisplayDataProps {
-  employee: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    address: string;
-    maritalStatus: string;
-  };
-  employment: {
-    jobTitle: string;
-    company: string;
-    salary: number;
-  };
-  familyBackground: {
-    fatherName: string;
-    fatherPhone: string;
-    fatherEmail: string;
-    fatherNationality: string;
-    motherName: string;
-    motherPhone: string;
-    motherEmail: string;
-    motherNationality: string;
-    emergencyContactName: string;
-    emergencyContactWoreda: string;
-    emergencyContactPhone: string;
-    emergencyContactEmail: string;
-    emergencyContactTown: string;
-    emergencyContactKebele: string;
-  };
-}
-
-export default EmployeeRegistration;
+export default ProfilePage;

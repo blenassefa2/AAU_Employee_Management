@@ -75,6 +75,35 @@ export const getAccountById = (
       return next();
     });
 };
+export const getallaccounts = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  Account.find({})
+    .then((users) => {
+      if (users) {
+        res.locals.json = {
+          statusCode: 200,
+          data: users,
+        };
+        return next();
+      } else {
+        res.locals.json = {
+          statusCode: 404,
+          message: "user not found",
+        };
+        return next();
+      }
+    })
+    .catch((error) => {
+      res.locals.json = {
+        statusCode: 500,
+        message: "error occured",
+      };
+      return next();
+    });
+};
 export const updateAccountById = async (
   req: Request,
   res: Response,

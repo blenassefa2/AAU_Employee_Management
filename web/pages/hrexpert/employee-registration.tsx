@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
-import Layout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/Layout";
+import { useGetUserQuery } from "@/redux/slices/users/usersApiSlice";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 function EmployeeRegistration() {
   const [employee, setEmployee] = useState({
     firstName: "",
@@ -37,7 +39,12 @@ function EmployeeRegistration() {
   });
 
   const [activeSlider, setActiveSlider] = useState("personal");
-
+  const { data, isLoading, isSuccess, isError, error } = useGetUserQuery({});
+  let user = { photoUrl: "" };
+  if (isSuccess) {
+    user = data.data;
+    console.log(data.data);
+  }
   const handleSliderChange = (slider: React.SetStateAction<string>) => {
     setActiveSlider(slider);
   };
@@ -47,6 +54,22 @@ function EmployeeRegistration() {
     setEmployee({ ...employee, [name]: value });
   };
 
+  const [photoUrl, setPhotoUrl] = useState<string>(user?.photoUrl || "");
+  const photo: any = useRef(null);
+  /**
+   * @param event
+   * Does something with form data, e.g. submit to a server
+   */
+
+  const handleClick = () => {
+    photo.current?.click();
+  };
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileObj = event.target.files && event.target.files[0];
+    if (!fileObj) {
+      return;
+    }
+  };
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("Employee: ", employee);
@@ -371,24 +394,36 @@ function EmployeeRegistration() {
                           }}
                         />
                       </div>
-                      <div className="ml-2 p-2 flex flex-col items-center justify-center border border-gray-300 rounded-md">
-                        <label htmlFor="image" className="cursor-pointer">
-                          <div className="w-6 h-6 bg-gray-200 rounded-md mb-1"></div>
-                          <span className="text-xs">Upload photo</span>
-                        </label>
-                        <input
-                          type="file"
-                          id="image"
-                          name="image"
-                          accept="image/*"
-                          onChange={handleChange}
-                          className="hidden"
-                          style={{
-                            width: "100%",
-                            height: "48px",
-                            marginBottom: "16px",
-                          }}
+                      <div className="colspan-2 flex ">
+                        <img
+                          src={`${user?.photoUrl}`}
+                          className="w-16 h-16 bg-gray-300 rounded-full mr-2"
                         />
+                        <div className="block w-600 py-2 flex flex-direction-col justify-center rounded-lg bg-gray-100 border-transparent focus:border-gray-200 text-secondary focus:bg-white focus:ring-0 secondary-text">
+                          <span>
+                            <AiOutlineCloudUpload
+                              className="ml-[50%]"
+                              color="blue"
+                            />
+                            <p className="ml-[5%] text-center text-black">
+                              <b onClick={handleClick}>Click to upload</b> or
+                              drag and drop SVG, PNG, JPG, or GIF(max800x400px)
+                            </p>
+                          </span>
+
+                          <input
+                            type="file"
+                            id="photo"
+                            name="photo"
+                            accept="image/*"
+                            ref={photo}
+                            className="hidden"
+                            onChange={(event) => {
+                              handleFileChange(event);
+                            }}
+                            required
+                          />
+                        </div>
                       </div>
                     </form>
                   )}

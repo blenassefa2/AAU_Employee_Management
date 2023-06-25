@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/Layout";
 import React, { useState } from "react";
 
 const LeaveRequest = () => {
@@ -163,7 +163,7 @@ const LeaveRequest = () => {
               <button
                 type="button"
                 onClick={handleCancel}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded ml-4"
+                className="bg-red-500 hover:bg-secondary text-white px-4 py-2 rounded ml-4"
               >
                 Cancel
               </button>

@@ -5,10 +5,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     getUser: builder.query({
       query: () => "/account/getById",
     }),
+    getAllUsers: builder.query({
+      query: () => "/account/getAllAccounts",
+    }),
     myNotification: builder.query({
       query: () => "/notification/myNotifications",
     }),
   }),
 });
 
-export const { useGetUserQuery, useMyNotificationQuery } = usersApiSlice;
+export const { useGetUserQuery, useMyNotificationQuery, useGetAllUsersQuery } =
+  usersApiSlice;

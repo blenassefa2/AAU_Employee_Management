@@ -50,7 +50,7 @@ const Sidebar = ({ goto }: SidebarProps) => {
           <li
             className="flex items-center mb-4 hover:bg-[#3B7CBD] hover:text-white p-3 rounded"
             onClick={() => {
-              route.push("/");
+              route.push(goto);
             }}
           >
             <HiHome className="h-6 w-6 mr-2" />
