@@ -151,6 +151,15 @@ const Sidebar = ({ goto }: SidebarProps) => {
             <HiClipboardCheck className="h-6 w-6 mr-2" />
             <span className="text-lg">Leave Request</span>
           </li>
+          <li
+            className="flex items-center mb-4 hover:bg-[#3B7CBD] hover:text-white p-3 rounded"
+            onClick={() => {
+              route.push(goto + "/apeal-page");
+            }}
+          >
+            <HiClipboardCheck className="h-6 w-6 mr-2" />
+            <span className="text-lg">Apeal</span>
+          </li>
         </ul>
       </nav>
     </aside>
