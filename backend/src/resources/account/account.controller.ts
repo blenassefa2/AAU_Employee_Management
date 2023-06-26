@@ -454,10 +454,9 @@ export const changePassword = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body.password);
     const hashedpass = await bcrypt.hash(req.body.password, 10);
 
-    const sender = req.params.id;
+    const sender = res.locals._id;
     const result = await Account.updateOne(
       { _id: sender },
       { $set: { password: hashedpass } }
