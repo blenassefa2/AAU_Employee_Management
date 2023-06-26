@@ -529,6 +529,10 @@ export const convertToExcel = async (
   next: NextFunction
 ) => {
   try {
+    const directory = req.body.directory || "uploads"; // Default directory is 'uploads'
+    const fileName = req.body.filename || "file.xlsx"; // Default file name is 'file.xlsx'
+    const filePath = `${directory}/${fileName}`;
+    const name = req.body.name;
     const keyword = req.body.keyword || "";
 
     // Query data from MongoDB collection
@@ -544,7 +548,7 @@ export const convertToExcel = async (
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
 
     // Generate a temporary file path
-    const filePath = `output3.xlsx`;
+    //const filePath = `output6.xlsx`;
 
     // Write workbook to the file path
     XLSX.writeFile(workbook, filePath);
@@ -552,21 +556,29 @@ export const convertToExcel = async (
     console.log("Excel file created successfully.");
 
     // Set the response headers to trigger the file download
+
+    // Write workbook to file
+    XLSX.writeFile(workbook, filePath);
+
+    // Set the response headers to trigger the file download
     res.setHeader(
       "Content-Type",
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     );
-    res.setHeader("Content-Disposition", 'attachment; filename="output.xlsx"');
-    console.log("done");
-    // Stream the file to the response
-    fs.createReadStream(filePath).pipe(res);
+    res.setHeader("Content-Disposition", 'attachment; filename="file.xlsx"');
 
-    // Delete the temporary file
-    fs.unlinkSync(filePath);
+    // Stream the file to the response
+    const fileStream = fs.createReadStream(filePath);
+    fileStream.pipe(res);
+
+    // Delete the temporary file after download
+    fileStream.on("end", () => {
+      fs.unlinkSync(filePath);
+    });
 
     res.locals.json = {
-      statusCode: 500,
-      message: "error occured",
+      statusCode: 200,
+      message: "Excel file generated successfully.",
     };
     return next();
   } catch (err) {
