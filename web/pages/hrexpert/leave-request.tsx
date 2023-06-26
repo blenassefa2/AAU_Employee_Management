@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout/Layout";
+import { useAskForLeaveMutation } from "@/redux/slices/leaveRequest/leaveApiSlice";
 import React, { useState } from "react";
 
 const LeaveRequest = () => {
@@ -7,7 +8,12 @@ const LeaveRequest = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [reason, setReason] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageColor, setMessageColor] = useState("gray");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [askForLeave, { isLoading, isSuccess, isError }] =
+    useAskForLeaveMutation();
 
   const handleCancel = () => {
     // Reset form fields or perform any other action
@@ -16,7 +22,7 @@ const LeaveRequest = () => {
     setName("");
     setEmail("");
     setReason("");
-    setSuccessMessage("");
+    setMessage("");
   };
 
   return (
@@ -28,12 +34,25 @@ const LeaveRequest = () => {
           </h1>
           <form
             className="ml-30"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
               // Send leave request data to the server or perform any other action
-
+              const userData = await askForLeave({
+                startDate,
+                endDate,
+                reason,
+              }).unwrap();
               // Show success message
-              setSuccessMessage("Leave request successfully submitted!");
+              if (isSuccess) {
+                setMessage("Leave request successfully submitted!");
+                setMessageColor("green");
+              } else if (isLoading) {
+                setMessage("Leave request sending .  .  .");
+                setMessageColor("gray");
+              } else if (isError) {
+                setMessage("Some Error is happening");
+                setMessageColor("red");
+              }
             }}
           >
             <div className="mb-4 flex">
@@ -66,6 +85,9 @@ const LeaveRequest = () => {
                 <input
                   type="date"
                   className="w-60 px-3 py-2 border border-gray-300 rounded text-black"
+                  onChange={(e) => {
+                    setStartDate(e.target.value);
+                  }}
                   required
                 />
               </div>
@@ -74,6 +96,9 @@ const LeaveRequest = () => {
                 <input
                   type="date"
                   className="w-60 px-3 py-2 ml-24 border border-gray-300 rounded text-black"
+                  onChange={(e) => {
+                    setEndDate(e.target.value);
+                  }}
                   required
                 />
               </div>
@@ -169,13 +194,13 @@ const LeaveRequest = () => {
               </button>
             </div>
           </form>
-          {successMessage && (
+          {message && (
             <div className="bg-green-500 text-white px-4 py-2 rounded">
-              {successMessage}
+              {message}
               <button
                 type="button"
                 className="bg-white text-green-500 px-4 py-2 rounded ml-4"
-                onClick={() => setSuccessMessage("")}
+                onClick={() => setMessage("")}
               >
                 OK
               </button>

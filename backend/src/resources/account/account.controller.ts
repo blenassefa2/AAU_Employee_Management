@@ -91,7 +91,7 @@ export const register = async (
       folder: "photo",
       use_filename: true,
     });
-    const hashedpass = await bcrypt.hash(req.body.password, 10);
+    const hashedpass = await bcrypt.hash("req.body.password", 10);
 
     let user = await new Account({
       firstName: req.body.firstName,
@@ -529,7 +529,6 @@ export const convertToExcel = async (
   next: NextFunction
 ) => {
   try {
-    const name = req.body.name;
     const keyword = req.body.keyword || "";
 
     // Query data from MongoDB collection
