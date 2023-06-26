@@ -532,26 +532,24 @@ export const convertToExcel = async (
   XLSX.writeFile(workbook, filePath);
 
   // Set the response headers to trigger the file download
-  res.setHeader(
-    "Content-Type",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  );
-  res.setHeader("Content-Disposition", 'attachment; filename="file.xlsx"');
+const cloudinaryResult = await cloudinary.uploader.upload(filePath, {
+      folder: "excel_files",
+      resource_type: "auto",
+      use_filename: true,
+      unique_filename: false,
+    });
 
-  // Stream the file to the response
-  const fileStream = fs.createReadStream(filePath);
-  fileStream.pipe(res);
-
-  // Delete the temporary file after download
-  fileStream.on("end", () => {
+    // Delete the temporary file after upload
     fs.unlinkSync(filePath);
-  });
 
-   res.locals.json = {
-     statusCode: 200,
-     message: "Excel file generated successfully.",
-   };
-   return next();
+    console.log("File uploaded to Cloudinary:", cloudinaryResult);
+
+    res.locals.json = {
+      statusCode: 200,
+      message: "Excel file generated and uploaded successfully.",
+      cloudinaryUrl: cloudinaryResult.secure_url,
+    };
+    return next();
  } catch (err) {
 
   
