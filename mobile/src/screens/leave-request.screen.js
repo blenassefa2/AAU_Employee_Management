@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
+import Layout from "../component/layout/layout.component";
 
-const Home = () => {
+const LeaveRequest = ({ navigation }) => {
   const [dayTimeType, setDayTimeType] = useState("fullDay");
   const [leaveType, setLeaveType] = useState("annual");
   const [name, setName] = useState("");
@@ -26,7 +27,7 @@ const Home = () => {
     setSuccessMessage("Leave request successfully submitted!");
   };
 
-  return (
+  const body= (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ marginLeft: 10, padding: 20, maxWidth: "80%" }}>
         <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>
@@ -158,6 +159,12 @@ const Home = () => {
       </View>
     </View>
   );
+  return (
+      <Layout
+        navigation={navigation}
+        bodyElement={<HomeScreenBody data={data} />}
+      />
+    );
 };
 
-export default Home;
+export default LeaveRequest;

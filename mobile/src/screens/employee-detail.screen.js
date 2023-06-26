@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Image } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
+import Layout from '../component/layout/layout.component';
 
-const EmployeeDetail = () => {
+const EmployeeDetail = ( { navigation }) => {
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
@@ -36,7 +37,7 @@ const EmployeeDetail = () => {
     console.log(file);
   };
 
-  return (
+  const body = (
     <View style={tw`flex-1 justify-center items-center p-4`}>
       <TextInput
         style={tw`w-full p-2 border border-gray-300 rounded mb-2`}
@@ -103,6 +104,12 @@ const EmployeeDetail = () => {
       <Button title="Submit" onPress={handleSubmit} />
     </View>
   );
+  return (
+      <Layout
+        navigation={navigation}
+        bodyElement={<HomeScreenBody data={data} />}
+      />
+    );
 };
 
 export default EmployeeDetail;

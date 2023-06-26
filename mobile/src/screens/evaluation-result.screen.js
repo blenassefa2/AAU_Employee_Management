@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { BarChart, XAxis, YAxis } from 'react-native-chart-kit';
+import Layout from '../component/layout/layout.component';
 
 
-const EvaluationResults = () => {
+const EvaluationResults = ({ navigation }) => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
@@ -18,7 +19,7 @@ const EvaluationResults = () => {
     setResults(t);
   }, []);
 
-  return (
+  const body = (
     <View style={{ backgroundColor: 'white', flex: 1 }}>
       <View style={{ marginTop: 7, marginLeft: 7 }}>
         <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 4 }}>
@@ -62,6 +63,12 @@ const EvaluationResults = () => {
       </View>
     </View>
   );
+  return (
+      <Layout
+        navigation={navigation}
+        bodyElement={<HomeScreenBody data={data} />}
+      />
+    );
 };
 
 export default EvaluationResults;
