@@ -10,6 +10,10 @@ const evaluationSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  tag: {
+    type: mongoose.Types.ObjectId,
+    required:true ,
+  },
 });
 
 export const Evaluation = mongoose.model("Evaluation", evaluationSchema);

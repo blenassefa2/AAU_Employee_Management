@@ -10,6 +10,7 @@ import {
   creatMany,
 } from "./employeeDetail.controller";
 import { upload } from "../../middleware/multer";
+import { authorize } from "../../middleware/authorization";
 const employeeDetailRouter = Router();
 
 employeeDetailRouter.put(
@@ -19,17 +20,17 @@ employeeDetailRouter.put(
 );
 employeeDetailRouter.get("/allEmployeeDetails", getAllEmployeeDetails, respond);
 employeeDetailRouter.get(
-  "/getEmployeeDetailById/:id",
+  "/getEmployeeDetailById/",authorize,
   getEmployeeDetailById,
   respond
 );
 employeeDetailRouter.get(
-  "/getEmployeeDetailByEmployeeId/:id",
+  "/getEmployeeDetailByEmployeeId/",authorize,
   getEmployeeDetailByEmployeeId,
   respond
 );
 employeeDetailRouter.delete(
-  "/deletEmployeeDetailById/:id",
+  "/deletEmployeeDetailById/",authorize,
   deleteEmployeeDetailById,
   respond
 );

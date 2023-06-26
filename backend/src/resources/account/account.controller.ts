@@ -1,4 +1,4 @@
-import { Account, IAccountInterface } from "./account.model";
+import { Account, IAccountInterface} from "./account.model";
 import { Notification } from "../notification/notification.model";
 import bcrypt from "bcryptjs";
 import e, { NextFunction, Request, Response } from "express";
@@ -10,9 +10,6 @@ import cloudinary from "../../config/cloudinary";
 import { ObjectId } from "mongodb";
 import { reject } from "lodash";
 import { setDefaultResultOrder } from "dns";
-
-// Usage
-
 export const registerMany = async (
   req: Request,
   res: Response,
@@ -164,7 +161,7 @@ export const updateAccountById = async (
   next: NextFunction
 ) => {
   const { firstName, lastName, email, phoneNumber } = req.body;
-  const userId = req.params.id;
+  const userId = res.locals._id;
   await Account.findByIdAndUpdate(
     { _id: userId },
     { firstName, lastName, email, phoneNumber }
@@ -198,7 +195,7 @@ export const deleteAccountById = (
   res: Response,
   next: NextFunction
 ) => {
-  const userId = req.params.id;
+  const userId = res.locals._id;
 
   Account.deleteOne({ _id: userId })
     .then((result) => {
@@ -230,7 +227,7 @@ export const forgetPassword = async (
   next: NextFunction
 ) => {
   try {
-    const sender = req.params.id;
+    const sender = res.locals._id;
     const user = await Account.findById(sender);
     const tag = "Emergent";
     const reciever = new ObjectId("647c9b8b18398bdc020ee99b");
@@ -299,7 +296,7 @@ export const aprove = async (
   try {
     const randomPassword: string = randomstring.generate(10);
     const hashedPassword = await bcrypt.hash(randomPassword, 10);
-    const sender = req.params.id;
+    const sender = res.locals._id;
     const result = await Account.updateOne(
       { _id: sender },
       { $set: { password: hashedPassword } }
@@ -346,7 +343,7 @@ export const rejectNotification = async (
   next: NextFunction
 ) => {
   try {
-    const sender = req.params.id;
+    const sender = res.locals._id;
     const user = await Account.findById(sender);
     const mailOptions = {
       from: "aauhumanresource@gmail.com",
@@ -380,11 +377,11 @@ export const resetPassword = async (
 ) => {
   try {
     const hashedpass = await bcrypt.hash(req.body.password, 10);
-    const userName = req.body.userName;
+  
     const sender = req.params.id;
     const result = await Account.updateOne(
       { _id: sender },
-      { $set: { password: hashedpass, userName: userName } }
+      { $set: { password: hashedpass } }
     );
 
     if (result != null) {
@@ -427,10 +424,10 @@ export const changePassword = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body.password);
+   
     const hashedpass = await bcrypt.hash(req.body.password, 10);
 
-    const sender = req.params.id;
+    const sender = res.locals._id;
     const result = await Account.updateOne(
       { _id: sender },
       { $set: { password: hashedpass } }
@@ -502,45 +499,60 @@ export const convertToExcel = async (
   next: NextFunction
 ) => {
  try {
-  const name = req.body.name;
-  const keyword = req.body.keyword || "";
+  const directory = req.body.directory || "uploads"; // Default directory is 'uploads'
+  const fileName = req.body.filename || "file.xlsx"; // Default file name is 'file.xlsx'
+  const filePath = `${directory}/${fileName}`;
+   const name = req.body.name;
+   const keyword = req.body.keyword || "";
+
+   // Query data from MongoDB collection
+   const jsonData = await Account.find({
+     firstName: { $regex: `${keyword}`, $options: "i" },
+   });
+
+   // Convert JSON to worksheet
+   const worksheet = XLSX.utils.json_to_sheet(jsonData);
+
+   // Create workbook and add the worksheet
+   const workbook = XLSX.utils.book_new();
+   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+   // Generate a temporary file path
+   //const filePath = `output6.xlsx`;
+
+   // Write workbook to the file path
+   XLSX.writeFile(workbook, filePath);
+
+   console.log("Excel file created successfully.");
+
+   // Set the response headers to trigger the file download
   
-  // Query data from MongoDB collection
-  const jsonData = await Account.find({
-    firstName: { $regex: `${keyword}`, $options: "i" },
-  });
-  
-  // Convert JSON to worksheet
-  const worksheet = XLSX.utils.json_to_sheet(jsonData);
-  
-  // Create workbook and add the worksheet
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-  
-  // Generate a temporary file path
-  const filePath = `output3.xlsx`;
-  
-  // Write workbook to the file path
+
+  // Write workbook to file
   XLSX.writeFile(workbook, filePath);
-  
-  console.log('Excel file created successfully.');
-  
+
   // Set the response headers to trigger the file download
-  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  res.setHeader('Content-Disposition', 'attachment; filename="output.xlsx"');
-  console.log("done")
+  res.setHeader(
+    "Content-Type",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  );
+  res.setHeader("Content-Disposition", 'attachment; filename="file.xlsx"');
+
   // Stream the file to the response
-  fs.createReadStream(filePath).pipe(res);
-  
-  // Delete the temporary file
-  fs.unlinkSync(filePath);
-  
+  const fileStream = fs.createReadStream(filePath);
+  fileStream.pipe(res);
+
+  // Delete the temporary file after download
+  fileStream.on("end", () => {
+    fs.unlinkSync(filePath);
+  });
+
    res.locals.json = {
-      statusCode: 500,
-      message: "error occured",
-    };
-    return next();
-} catch (err) {
+     statusCode: 200,
+     message: "Excel file generated successfully.",
+   };
+   return next();
+ } catch (err) {
 
   
   console.log(err);

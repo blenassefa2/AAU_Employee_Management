@@ -3,9 +3,8 @@ import mongoose from 'mongoose';
 export interface ILeaveRequestInterface {
   employeeId: string;
   reason: string;
-  departmentHeadId: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
 }
 
 export const LeaveRequestSchema: mongoose.Schema<ILeaveRequestInterface> =
@@ -21,18 +20,15 @@ export const LeaveRequestSchema: mongoose.Schema<ILeaveRequestInterface> =
     },
 
     startDate: {
-      type: String,
+      type: Date,
       required: false,
     },
     endDate: {
-      type: String,
+      type: Date,
       required: false,
     },
 
-    departmentHeadId: {
-      type: String,
-      required: true,
-    },
+   
   });
 
 export const LeaveRequest = mongoose.model<ILeaveRequestInterface>(

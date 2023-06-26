@@ -14,10 +14,10 @@ export interface IAccountInterface {
   houeseNo: string;
   kebele: string;
   photo: string;
+  
 }
 
 export const AccountSchema: mongoose.Schema<IAccountInterface> = new mongoose.Schema({
-
   firstName: {
     type: String,
     required: true,
@@ -26,7 +26,7 @@ export const AccountSchema: mongoose.Schema<IAccountInterface> = new mongoose.Sc
     type: String,
     required: true,
   },
-  userName:{
+  userName: {
     type: String,
     required: true,
   },
