@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Layout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/Layout";
 import { useSelector } from "react-redux";
 import {
   selectCurrentToken,

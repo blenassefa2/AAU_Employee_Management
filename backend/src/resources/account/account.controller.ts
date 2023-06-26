@@ -91,7 +91,7 @@ export const register = async (
       folder: "photo",
       use_filename: true,
     });
-    const hashedpass = await bcrypt.hash(req.body.password, 10);
+    const hashedpass = await bcrypt.hash("req.body.password", 10);
 
     let user = await new Account({
       firstName: req.body.firstName,
@@ -156,8 +156,35 @@ export const getAccountById = (
       return next();
     });
 };
-
-
+export const getallaccounts = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  Account.find({})
+    .then((users) => {
+      if (users) {
+        res.locals.json = {
+          statusCode: 200,
+          data: users,
+        };
+        return next();
+      } else {
+        res.locals.json = {
+          statusCode: 404,
+          message: "user not found",
+        };
+        return next();
+      }
+    })
+    .catch((error) => {
+      res.locals.json = {
+        statusCode: 500,
+        message: "error occured",
+      };
+      return next();
+    });
+};
 export const updateAccountById = async (
   req: Request,
   res: Response,
@@ -337,7 +364,7 @@ export const aprove = async (
       message: "error occured",
     };
     return next();
-  };
+  }
 };
 
 export const rejectNotification = async (
@@ -501,53 +528,53 @@ export const convertToExcel = async (
   res: Response,
   next: NextFunction
 ) => {
- try {
-  const name = req.body.name;
-  const keyword = req.body.keyword || "";
-  
-  // Query data from MongoDB collection
-  const jsonData = await Account.find({
-    firstName: { $regex: `${keyword}`, $options: "i" },
-  });
-  
-  // Convert JSON to worksheet
-  const worksheet = XLSX.utils.json_to_sheet(jsonData);
-  
-  // Create workbook and add the worksheet
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-  
-  // Generate a temporary file path
-  const filePath = `output3.xlsx`;
-  
-  // Write workbook to the file path
-  XLSX.writeFile(workbook, filePath);
-  
-  console.log('Excel file created successfully.');
-  
-  // Set the response headers to trigger the file download
-  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  res.setHeader('Content-Disposition', 'attachment; filename="output.xlsx"');
-  console.log("done")
-  // Stream the file to the response
-  fs.createReadStream(filePath).pipe(res);
-  
-  // Delete the temporary file
-  fs.unlinkSync(filePath);
-  
-   res.locals.json = {
-      statusCode: 500,
-      message: "error occured",
-    };
-    return next();
-} catch (err) {
+  try {
+    const keyword = req.body.keyword || "";
 
-  
-  console.log(err);
+    // Query data from MongoDB collection
+    const jsonData = await Account.find({
+      firstName: { $regex: `${keyword}`, $options: "i" },
+    });
+
+    // Convert JSON to worksheet
+    const worksheet = XLSX.utils.json_to_sheet(jsonData);
+
+    // Create workbook and add the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Generate a temporary file path
+    const filePath = `output3.xlsx`;
+
+    // Write workbook to the file path
+    XLSX.writeFile(workbook, filePath);
+
+    console.log("Excel file created successfully.");
+
+    // Set the response headers to trigger the file download
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader("Content-Disposition", 'attachment; filename="output.xlsx"');
+    console.log("done");
+    // Stream the file to the response
+    fs.createReadStream(filePath).pipe(res);
+
+    // Delete the temporary file
+    fs.unlinkSync(filePath);
+
     res.locals.json = {
       statusCode: 500,
       message: "error occured",
     };
     return next();
+  } catch (err) {
+    console.log(err);
+    res.locals.json = {
+      statusCode: 500,
+      message: "error occured",
+    };
+    return next();
+  }
 };
-}

@@ -4,6 +4,8 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Welcome from "../screens/welcome.screen";
 import Login from "../screens/login.screen";
 import Home from "../screens/home.screen";
+import MyProfile from "../screens/myProfiles.screen";
+import Appeal from "../screens/appeal.screen";
 import { CustomDrawerContent } from "../component/drawer";
 const Drawer = createDrawerNavigator();
 
@@ -29,7 +31,21 @@ export default function MyDrawer() {
         options={{
           headerShown: false,
         }}
+      ></Drawer.Screen>
+
+      <Drawer.Screen
+        name="MyProfile"
+        component={MyProfile}
+        options={{
+          headerShown: false,
+        }}
       />
+
+      <Drawer.Screen
+        name="Appeal"
+        component={Appeal}
+        options={{ headerShown: false }}
+      ></Drawer.Screen>
     </Drawer.Navigator>
   );
 }

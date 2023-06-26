@@ -26,7 +26,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = () => {
   if (notifications.length == 0)
     return (
       <div className="min-h-screen bg-white">
-        <Layout page="hrexpert">
+        <Layout page="employee">
           <div className="flex items-center justify-center my-[20%]">
             <div className="flex bg-gray-500  w-[80%] items-center justify-center text-white px-4 py-2 rounded">
               No notifications to see
@@ -60,7 +60,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Layout page="hrexpert">
+      <Layout page="employee">
         <div className="bg-white p-4">
           <h1 className="text-2xl text-black font-bold mb-4">Notifications</h1>
           {paginatedNotifications.map(

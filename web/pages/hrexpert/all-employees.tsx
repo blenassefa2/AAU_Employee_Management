@@ -1,58 +1,70 @@
-import Layout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/Layout";
+import {
+  useDownloadMutation,
+  useGetAllUsersQuery,
+} from "@/redux/slices/users/usersApiSlice";
 import React, { useState } from "react";
+import { TiDownload } from "react-icons/ti";
 
 type Employee = {
   id: number;
-  name: string;
+  firstName: string;
   password: string;
-  department: string;
+  role: string;
   status: string;
 };
 
-const employees: Employee[] = [
-  {
-    id: 1,
-    name: "John Doe",
-    password: "password123",
-    department: "HR",
-    status: "active",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    password: "password456",
-    department: "Marketing",
-    status: "inactive",
-  },
-  {
-    id: 1,
-    name: "John Doe",
-    password: "password123",
-    department: "HR",
-    status: "active",
-  },
-
-  // Add more employees here
-];
-
 const EmployeeTable = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { data, isLoading, isError, isSuccess } = useGetAllUsersQuery({});
+  const [downloadNow, setDownloadNow] = useState(false);
+  const [download] = useDownloadMutation();
+  if (isLoading) {
+    return (
+      <div className="bg-white min-h-screen">
+        <Layout page="hrexpert">
+          <>Loading</>
+        </Layout>
+      </div>
+    );
+  }
+  if (!isSuccess) {
+    return (
+      <div className="bg-white min-h-screen">
+        <Layout page="hrexpert">
+          <></>
+        </Layout>
+      </div>
+    );
+  }
+  const employees: Employee[] = data.data;
 
-  const filteredEmployees = employees.filter((employee) =>
-    employee.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredEmployees = employees.filter((employee, index) =>
+    employee.firstName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="bg-white h-screen">
+    <div className="bg-white min-h-screen">
       <Layout page="hrexpert">
         <div className="bg-white text-black p-4">
-          <input
-            type="text"
-            placeholder="Search employees"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="mb-4 p-2 border border-gray-300 rounded"
-          />
+          <span className="flex justify">
+            <button
+              onClick={async () => {
+                await download({});
+              }}
+              className="bg-primary inline-block  mb-4 text-white py-2 px-4 rounded-lg flex items-center"
+            >
+              <TiDownload className="h-5 w-5 mr-1" />
+              Download
+            </button>
+            <input
+              type="text"
+              placeholder="Search employees"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="mb-4 p-2 border ml-[70%] inline-block border-gray-300 rounded"
+            />
+          </span>
           <div className="overflow-y-hidden h-300">
             <table className="w-full border-collapse">
               <thead>
@@ -71,13 +83,13 @@ const EmployeeTable = () => {
                       {employee.id}
                     </td>
                     <td className="p-2 border border-gray-300">
-                      {employee.name}
+                      {employee.firstName}
                     </td>
                     <td className="p-2 border border-gray-300">
                       {employee.password}
                     </td>
                     <td className="p-2 border border-gray-300">
-                      {employee.department}
+                      {employee.role}
                     </td>
                     <td className="p-2 border border-gray-300">
                       {employee.status}

@@ -27,8 +27,8 @@ export default function PerformanceEvaluationForm() {
   };
 
   return (
-    <div className="bg-white text-black h-screen">
-      <Layout page="statistician">
+    <Layout page="employee">
+      <div className="bg-white text-black h-screen">
         <div className="p-4">
           <h1 className="text-2xl font-bold mb-4">
             Performance Evaluation Form
@@ -197,7 +197,7 @@ export default function PerformanceEvaluationForm() {
             </div>
           )}
         </div>
-      </Layout>
-    </div>
+      </div>
+    </Layout>
   );
 }

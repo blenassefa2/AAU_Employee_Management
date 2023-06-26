@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
-import Layout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/Layout";
+import { useGetUserQuery } from "@/redux/slices/users/usersApiSlice";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+import { useRegisterMutation } from "@/redux/slices/users/usersApiSlice";
 function EmployeeRegistration() {
   const [employee, setEmployee] = useState({
     firstName: "",
@@ -9,6 +12,9 @@ function EmployeeRegistration() {
     phone: "",
     address: "",
     maritalStatus: "",
+    age: 0,
+    town: "",
+    woreda: "",
   });
 
   const [employment, setEmployment] = useState({
@@ -35,6 +41,10 @@ function EmployeeRegistration() {
     emergencyContactTown: "",
     emergencyContactKebele: "",
   });
+  const [uploading, setUploading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const [register, { isLoading, isSuccess }] = useRegisterMutation({});
 
   const [activeSlider, setActiveSlider] = useState("personal");
 
@@ -47,21 +57,48 @@ function EmployeeRegistration() {
     setEmployee({ ...employee, [name]: value });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log("Employee: ", employee);
-    console.log("Employment: ", employment);
-    console.log("Family Background: ", familyBackground);
+  const photo: any = useRef(null);
+  /**
+   * @param event
+   * Does something with form data, e.g. submit to a server
+   */
+
+  const handleClick = () => {
+    photo.current?.click();
   };
 
-  const handleRangeChange = (e: { target: { value: any } }) => {
-    const value = e.target.value;
-    if (value < 33) {
-      setActiveSlider("personal");
-    } else if (value < 66) {
-      setActiveSlider("employment");
-    } else {
-      setActiveSlider("family");
+  const handleUpload = async () => {
+    setUploading(true);
+    try {
+      if (!selectedFile) return;
+      const formData: FormData = new FormData();
+      formData.append("photo", selectedFile);
+      formData.append("firstName", employee.firstName);
+      formData.append("lastName", employee.lastName);
+      formData.append("department", employment.jobTitle);
+      formData.append("role", employment.jobTitle);
+      formData.append("email", employee.email);
+
+      formData.append("phone", employee.phone);
+
+      const data = await register({
+        formData,
+      }).unwrap();
+
+      if (isSuccess) console.log("done!");
+    } catch (error: any) {
+      console.log(error.response?.data);
+    }
+    setUploading(false);
+  };
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    try {
+      await handleUpload();
+    } catch (error) {
+      console.log(error);
+      return;
     }
   };
   interface NavbarProps {
@@ -167,7 +204,7 @@ function EmployeeRegistration() {
                           name="firstName"
                           value={employee.firstName}
                           onChange={handleChange}
-                          className="mt-1 mr-8 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 mr-8 block w-full text-black rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           placeholder="Enter first name"
                           style={{
@@ -190,7 +227,7 @@ function EmployeeRegistration() {
                           name="lastName"
                           value={employee.lastName}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full text-black rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           placeholder="Enter last name"
                           style={{
@@ -213,7 +250,7 @@ function EmployeeRegistration() {
                           name="email"
                           value={employee.email}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full text-black rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           placeholder="Enter email address"
                           required
                           style={{
@@ -234,10 +271,9 @@ function EmployeeRegistration() {
                           type="email"
                           id="email"
                           name="email"
-                          value={employee.email}
+                          value={employee.age}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
+                          className="mt-1 block w-full text-black rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           placeholder="Enter age"
                           style={{
                             width: "100%",
@@ -257,10 +293,9 @@ function EmployeeRegistration() {
                           type="email"
                           id="email"
                           name="email"
-                          value={employee.email}
+                          value={employee.town}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
+                          className="mt-1 block w-full text-black rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           placeholder="town"
                           style={{
                             width: "100%",
@@ -280,10 +315,9 @@ function EmployeeRegistration() {
                           type="email"
                           id="email"
                           name="email"
-                          value={employee.email}
+                          value={employee.woreda}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
+                          className="mt-1 block w-full text-black rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           placeholder="Wereda"
                           style={{
                             width: "100%",
@@ -305,7 +339,7 @@ function EmployeeRegistration() {
                           name="phone"
                           value={employee.phone}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full text-black rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           placeholder="Eg. 09-123456789"
                           style={{
@@ -328,7 +362,6 @@ function EmployeeRegistration() {
                           value={employee.maritalStatus}
                           onChange={handleChange}
                           className="mt-1 text-black block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -361,8 +394,7 @@ function EmployeeRegistration() {
                           name="address"
                           value={employee.address}
                           onChange={handleChange}
-                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
+                          className="mt-1 block w-full text-black rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           placeholder="road/current residence/country"
                           style={{
                             width: "100%",
@@ -371,24 +403,40 @@ function EmployeeRegistration() {
                           }}
                         />
                       </div>
-                      <div className="ml-2 p-2 flex flex-col items-center justify-center border border-gray-300 rounded-md">
-                        <label htmlFor="image" className="cursor-pointer">
-                          <div className="w-6 h-6 bg-gray-200 rounded-md mb-1"></div>
-                          <span className="text-xs">Upload photo</span>
-                        </label>
-                        <input
-                          type="file"
-                          id="image"
-                          name="image"
-                          accept="image/*"
-                          onChange={handleChange}
-                          className="hidden"
-                          style={{
-                            width: "100%",
-                            height: "48px",
-                            marginBottom: "16px",
-                          }}
+                      <div className="col-span-2 w-800 flex ">
+                        <img
+                          src={`${selectedImage}`}
+                          className="w-16 h-16 bg-gray-300 rounded-full mr-2"
                         />
+                        <div className="block w-600 py-2 flex flex-direction-col justify-center rounded-lg bg-gray-100 border-transparent focus:border-gray-200 text-secondary focus:bg-white focus:ring-0 secondary-text">
+                          <span>
+                            <AiOutlineCloudUpload
+                              className="ml-[50%]"
+                              color="blue"
+                            />
+                            <p className="ml-[5%] text-center text-black">
+                              <b onClick={handleClick}>Click to upload</b> or
+                              drag and drop SVG, PNG, JPG, or GIF(max800x400px)
+                            </p>
+                          </span>
+
+                          <input
+                            type="file"
+                            id="photo"
+                            name="image"
+                            accept="image/*"
+                            ref={photo}
+                            className="hidden"
+                            onChange={({ target }) => {
+                              if (target.files) {
+                                const file = target.files[0];
+                                setSelectedImage(URL.createObjectURL(file));
+                                setSelectedFile(file);
+                              }
+                            }}
+                            required
+                          />
+                        </div>
                       </div>
                     </form>
                   )}
@@ -416,7 +464,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -443,7 +490,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -459,7 +505,7 @@ function EmployeeRegistration() {
                           Job Title
                         </label>
                         <input
-                          type="number"
+                          type="text"
                           id="jobTitle"
                           name="jobTitle"
                           value={employment.jobTitle}
@@ -469,7 +515,7 @@ function EmployeeRegistration() {
                               jobTitle: e.target.value,
                             })
                           }
-                          className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="mt-1 block w-full text-black rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
                           required
                           style={{
                             width: "100%",
@@ -497,7 +543,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -555,7 +600,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -580,7 +624,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -605,7 +648,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -630,7 +672,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -657,7 +698,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -682,7 +722,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -707,7 +746,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -732,7 +770,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -759,7 +796,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -784,7 +820,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -809,7 +844,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -834,7 +868,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -861,7 +894,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",
@@ -886,7 +918,6 @@ function EmployeeRegistration() {
                             })
                           }
                           className="mt-1 block w-full rounded-md border border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-opacity-50"
-                          required
                           style={{
                             width: "100%",
                             height: "48px",

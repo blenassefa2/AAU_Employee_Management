@@ -10,70 +10,69 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 const HomeScreenBody = ({ data }) => {
-  // const {
-  //   photoURL,
-  //   department,
-  //   firstName,
-  //   lastName,
-  //   identityCardNumber,
-  //   email,
-  //   departmentSpeciality,
-  // } = data;
+  const {
+    photoUrl: photoURL,
+    role: department,
+    firstName,
+    lastName,
+    id_: identityCardNumber,
+    email,
+    role: departmentSpeciality,
+  } = data.data;
 
-  return <>{JSON.stringify(data)}</>;
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.topHalfCircle} />
+      <View style={styles.fullCircle}>
+        <Image source={{ uri: photoURL }} style={styles.profileImage} />
+      </View>
+      <View style={styles.middleContainer}>
+        <Text style={styles.nameText}>{`${firstName} ${lastName}`}</Text>
+        <View style={styles.infoContainer}>
+          <View style={styles.infoRow}>
+            <Ionicons
+              name="card-outline"
+              size={24}
+              color="black"
+              style={styles.icon}
+            />
+            <View>
+              <Text style={styles.labelText}>ID:</Text>
+              <Text style={styles.valueText}>{identityCardNumber}</Text>
+            </View>
+          </View>
+          <View style={styles.infoRow}>
+            <Ionicons
+              name="mail-outline"
+              size={24}
+              color="black"
+              style={styles.icon}
+            />
+            <View>
+              <Text style={styles.labelText}>Email:</Text>
+              <Text style={styles.valueText}>{email}</Text>
+            </View>
+          </View>
+          <View style={styles.infoRow}>
+            <Ionicons
+              name="school-outline"
+              size={24}
+              color="black"
+              style={styles.icon}
+            />
+            <View>
+              <Text style={styles.labelText}>Department Speciality:</Text>
+              <Text style={styles.valueText}>{departmentSpeciality}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <TouchableOpacity style={styles.editButton}>
+        <Text style={styles.editButtonText}>Edit Profile</Text>
+      </TouchableOpacity>
+    </ScrollView>
+  );
 };
-// <ScrollView contentContainerStyle={styles.container}>
-//   <View style={styles.topHalfCircle} />
-//   <View style={styles.fullCircle}>
-//     <Image source={{ uri: photoURL }} style={styles.profileImage} />
-//   </View>
-//   <View style={styles.middleContainer}>
-//     <Text style={styles.nameText}>{`${firstName} ${lastName}`}</Text>
-//     <View style={styles.infoContainer}>
-//       <View style={styles.infoRow}>
-//         <Ionicons
-//           name="card-outline"
-//           size={24}
-//           color="black"
-//           style={styles.icon}
-//         />
-//         <View>
-//           <Text style={styles.labelText}>ID:</Text>
-//           <Text style={styles.valueText}>{identityCardNumber}</Text>
-//         </View>
-//       </View>
-//       <View style={styles.infoRow}>
-//         <Ionicons
-//           name="mail-outline"
-//           size={24}
-//           color="black"
-//           style={styles.icon}
-//         />
-//         <View>
-//           <Text style={styles.labelText}>Email:</Text>
-//           <Text style={styles.valueText}>{email}</Text>
-//         </View>
-//       </View>
-//       <View style={styles.infoRow}>
-//         <Ionicons
-//           name="school-outline"
-//           size={24}
-//           color="black"
-//           style={styles.icon}
-//         />
-//         <View>
-//           <Text style={styles.labelText}>Department Speciality:</Text>
-//           <Text style={styles.valueText}>{departmentSpeciality}</Text>
-//         </View>
-//       </View>
-//     </View>
-//   </View>
-//   <TouchableOpacity style={styles.editButton}>
-//     <Text style={styles.editButtonText}>Edit Profile</Text>
-//   </TouchableOpacity>
-// </ScrollView>
-//   );
-// };
 
 // Styles
 const styles = StyleSheet.create({

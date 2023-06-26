@@ -32,7 +32,7 @@ const EvaluationResults = () => {
 
   return (
     <div className="bg-white text-black h-screen ">
-      <Layout page="hrexpert">
+      <Layout page="employee">
         <div className="flex flex-col mt-7 ml-7">
           <h2 className="text-lg font-semibold my-4">
             Performance Evaluation Results

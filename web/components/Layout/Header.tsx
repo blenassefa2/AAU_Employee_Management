@@ -5,8 +5,13 @@ import { HiBell, HiChevronDown } from "react-icons/hi";
 import Image from "next/image";
 import { Modal } from "../Modal/Modal";
 import ChangePasswordForm from "../Common/ChangePasswordForm";
+import { useMyNotificationQuery } from "@/redux/slices/users/usersApiSlice";
+import { useRouter } from "next/router";
 
-const Header = () => {
+interface HeaderProps {
+  goto: string;
+}
+const Header: React.FC<HeaderProps> = ({ goto }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const handleOpen = () => {
@@ -22,7 +27,10 @@ const Header = () => {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-
+  const route = useRouter();
+  const { data, isLoading, isSuccess, isError, error } = useMyNotificationQuery(
+    {}
+  );
   return (
     <nav className="bg-primary">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,12 +57,17 @@ const Header = () => {
               <button
                 type="button"
                 className="bg-[#3B7CBD] text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-500 focus:ring-white"
+                onClick={() => {
+                  route.push(goto + "/notification");
+                }}
               >
                 <HiBell className="h-6 w-6" />
               </button>
-              <span className="absolute top-0 right-0 inline-flex items-center justify-center h-4 w-4 bg-red-500 text-xs text-white font-bold rounded-full">
-                2
-              </span>
+              {isSuccess && data.data.length > 0 && (
+                <span className="absolute top-0 right-0 inline-flex items-center justify-center h-4 w-4 bg-red-500 text-xs text-white font-bold rounded-full">
+                  {data.data.length}
+                </span>
+              )}
             </div>
             <div className="ml-3 mr-4">
               {" "}

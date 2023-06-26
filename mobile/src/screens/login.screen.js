@@ -64,8 +64,8 @@ const Login = ({ navigation }) => {
             email,
             password,
           }).unwrap();
-          console.log(userData.data.token);
-          dispatch(setCredentials(userData.data.token));
+
+          dispatch(setCredentials(userData.data));
 
           // login({ email, password })
           //   .unwrap()
@@ -73,7 +73,7 @@ const Login = ({ navigation }) => {
           //     // Handle successful login
           //     console.log(data);
 
-          pressHandler("Home", navigation);
+          pressHandler("Appeal", navigation);
           //   })
           //   .catch((error) => {
           //     // Handle login error

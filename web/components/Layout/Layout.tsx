@@ -33,7 +33,7 @@ const Layout: React.FC<HRExpertLayoutProps> = ({ children, page }) => {
   if (user == page)
     return (
       <div>
-        <Header />
+        <Header goto={`/${page}`} />
         <div className="flex">
           <Sidebar goto={`/${page}`} />
           <main className="flex-grow  h-[90%]">{children}</main>
