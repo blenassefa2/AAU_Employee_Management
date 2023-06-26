@@ -31,7 +31,7 @@ accountRouter.post(
 accountRouter.post("/forgotPassword/:id", forgetPassword, respond);
 accountRouter.post("/approve/:id", aprove, respond);
 accountRouter.post("/reset/:id", resetPassword, respond);
-accountRouter.post("/changePassword/:id", changePassword, respond);
+accountRouter.post("/changePassword", changePassword, respond);
 accountRouter.post("/reject/:id", rejectNotification, respond);
 accountRouter.get("/getById", authorize, getAccountById, respond);
 accountRouter.get("/getAllAccounts", authorize, getallaccounts, respond);

@@ -1,60 +1,61 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import Layout from "@/components/Layout/Layout";
 
 const EmployeePage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const router = useRouter();
 
   const employee = {
-    fullName: 'John Doe',
-    phoneNumber: '1234567890',
-    email: 'johndoe@example.com',
+    fullName: "John Doe",
+    phoneNumber: "1234567890",
+    email: "johndoe@example.com",
     age: 30,
-    town: 'Sample Town',
-    wereda: 'Sample Wereda',
-    kebele: 'Sample Kebele',
-    houseNumber: '123',
-    maritalStatus: 'Married',
-    photo: 'employee.jpg',
+    town: "Sample Town",
+    wereda: "Sample Wereda",
+    kebele: "Sample Kebele",
+    houseNumber: "123",
+    maritalStatus: "Married",
+    photo: "employee.jpg",
   };
 
   const employment = {
-    employmentDate: '2022-01-01',
-    employmentStatus: 'Active',
-    jobTitle: 'Software Engineer',
+    employmentDate: "2022-01-01",
+    employmentStatus: "Active",
+    jobTitle: "Software Engineer",
     salary: 5000,
-    cv: 'cv.pdf',
+    cv: "cv.pdf",
   };
 
   const family = {
     father: {
-      fullName: 'John Doe Sr.',
-      phoneNumber: '0987654321',
-      email: 'johnsrdoe@example.com',
-      nationality: 'Sample Nationality',
+      fullName: "John Doe Sr.",
+      phoneNumber: "0987654321",
+      email: "johnsrdoe@example.com",
+      nationality: "Sample Nationality",
     },
     mother: {
-      fullName: 'Jane Doe',
-      phoneNumber: '0987654322',
-      email: 'janedoe@example.com',
-      nationality: 'Sample Nationality',
+      fullName: "Jane Doe",
+      phoneNumber: "0987654322",
+      email: "janedoe@example.com",
+      nationality: "Sample Nationality",
     },
   };
 
   const emergency = {
-    fullName: 'Emergency Contact',
-    phoneNumber: '0987654323',
-    email: 'emergency@example.com',
-    nationality: 'Sample Nationality',
-    town: 'Sample Town',
-    wereda: 'Sample Wereda',
-    kebele: 'Sample Kebele',
-    houseNumber: '456',
+    fullName: "Emergency Contact",
+    phoneNumber: "0987654323",
+    email: "emergency@example.com",
+    nationality: "Sample Nationality",
+    town: "Sample Town",
+    wereda: "Sample Wereda",
+    kebele: "Sample Kebele",
+    houseNumber: "456",
   };
 
   const handleNext = () => {
     if (currentPage === 3) {
-      router.push('/confirmation');
+      router.push("/confirmation");
     } else {
       setCurrentPage(currentPage + 1);
     }
@@ -128,15 +129,19 @@ const EmployeePage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto py-8">
-      {renderCurrentPage()}
+    <div className="bg-white text-black min-h-screen">
+      <Layout page="hrexpert">
+        <div className="container mx-auto py-8">
+          {renderCurrentPage()}
 
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={handleNext}
-      >
-        {currentPage === 3 ? 'Finish' : 'Next'}
-      </button>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleNext}
+          >
+            {currentPage === 3 ? "Finish" : "Next"}
+          </button>
+        </div>
+      </Layout>
     </div>
   );
 };

@@ -26,6 +26,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         formData: true,
       }),
     }),
+    changePassword: builder.mutation({
+      query: (data) => ({
+        url: "/account/changePassword",
+        method: "POST",
+        body: { ...data },
+      }),
+    }),
   }),
 });
 
@@ -35,4 +42,5 @@ export const {
   useGetAllUsersQuery,
   useRegisterMutation,
   useDownloadMutation,
+  useChangePasswordMutation,
 } = usersApiSlice;
