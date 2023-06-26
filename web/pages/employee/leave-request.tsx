@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout/HRExpertlayout";
+import Layout from "@/components/Layout/Layout";
 import React, { useState } from "react";
 
 const LeaveRequest = () => {
