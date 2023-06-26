@@ -136,7 +136,7 @@ const Sidebar = ({ goto }: SidebarProps) => {
           <li
             className="flex items-center mb-4 hover:bg-[#3B7CBD] hover:text-white p-3 rounded"
             onClick={() => {
-              route.push(goto + "/my-profile");
+              route.push(goto + "/view-detail");
             }}
           >
             <HiUserCircle className="h-6 w-6 mr-2" />
