@@ -499,45 +499,60 @@ export const convertToExcel = async (
   next: NextFunction
 ) => {
  try {
-  const name = req.body.name;
-  const keyword = req.body.keyword || "";
+  const directory = req.body.directory || "uploads"; // Default directory is 'uploads'
+  const fileName = req.body.filename || "file.xlsx"; // Default file name is 'file.xlsx'
+  const filePath = `${directory}/${fileName}`;
+   const name = req.body.name;
+   const keyword = req.body.keyword || "";
+
+   // Query data from MongoDB collection
+   const jsonData = await Account.find({
+     firstName: { $regex: `${keyword}`, $options: "i" },
+   });
+
+   // Convert JSON to worksheet
+   const worksheet = XLSX.utils.json_to_sheet(jsonData);
+
+   // Create workbook and add the worksheet
+   const workbook = XLSX.utils.book_new();
+   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+   // Generate a temporary file path
+   //const filePath = `output6.xlsx`;
+
+   // Write workbook to the file path
+   XLSX.writeFile(workbook, filePath);
+
+   console.log("Excel file created successfully.");
+
+   // Set the response headers to trigger the file download
   
-  // Query data from MongoDB collection
-  const jsonData = await Account.find({
-    firstName: { $regex: `${keyword}`, $options: "i" },
-  });
-  
-  // Convert JSON to worksheet
-  const worksheet = XLSX.utils.json_to_sheet(jsonData);
-  
-  // Create workbook and add the worksheet
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-  
-  // Generate a temporary file path
-  const filePath = `output3.xlsx`;
-  
-  // Write workbook to the file path
+
+  // Write workbook to file
   XLSX.writeFile(workbook, filePath);
-  
-  console.log('Excel file created successfully.');
-  
+
   // Set the response headers to trigger the file download
-  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  res.setHeader('Content-Disposition', 'attachment; filename="output.xlsx"');
-  console.log("done")
+  res.setHeader(
+    "Content-Type",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  );
+  res.setHeader("Content-Disposition", 'attachment; filename="file.xlsx"');
+
   // Stream the file to the response
-  fs.createReadStream(filePath).pipe(res);
-  
-  // Delete the temporary file
-  fs.unlinkSync(filePath);
-  
+  const fileStream = fs.createReadStream(filePath);
+  fileStream.pipe(res);
+
+  // Delete the temporary file after download
+  fileStream.on("end", () => {
+    fs.unlinkSync(filePath);
+  });
+
    res.locals.json = {
-      statusCode: 500,
-      message: "error occured",
-    };
-    return next();
-} catch (err) {
+     statusCode: 200,
+     message: "Excel file generated successfully.",
+   };
+   return next();
+ } catch (err) {
 
   
   console.log(err);
