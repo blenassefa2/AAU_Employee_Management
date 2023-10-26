@@ -18,9 +18,10 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
       } else {
         bcrypt.compare(password, <string>user.password, function (err, result) {
           if (err || !result) {
+            console.log(err)
             res.locals.json = {
               statusCode: 401,
-              message: "Invalid Cridentials",
+              message: err,
             };
             return next();
           } else {

@@ -406,7 +406,7 @@ export const resetPassword = async (
   next: NextFunction
 ) => {
   try {
-    const hashedpass = await bcrypt.hash(req.body.password, 10);
+    const hashedpass = await bcrypt.hash("123", 10);
     const userName = req.body.userName;
     const sender = req.params.id;
     const result = await Account.updateOne(
@@ -423,16 +423,16 @@ export const resetPassword = async (
       };
       return next();
     }
-    const user = await Account.findById(sender);
-    const mailOptions = {
-      from: "aauhumanresource@gmail.com",
-      to: user.email as string,
-      subject: "New password",
-      text: "password: " + req.body.password,
-    };
+    // const user = await Account.findById(sender);
+    // const mailOptions = {
+    //   from: "aauhumanresource@gmail.com",
+    //   to: user.email as string,
+    //   subject: "New password",
+    //   text: "password: " + req.body.password,
+    // };
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully!", info.response);
+    // const info = await transporter.sendMail(mailOptions);
+    // console.log("Email sent successfully!", info.response);
 
     res.locals.json = {
       statusCode: 200,

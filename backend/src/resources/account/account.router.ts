@@ -34,7 +34,7 @@ accountRouter.post("/reset/:id", resetPassword, respond);
 accountRouter.post("/changePassword", changePassword, respond);
 accountRouter.post("/reject/:id", rejectNotification, respond);
 accountRouter.get("/getById", authorize, getAccountById, respond);
-accountRouter.get("/getAllAccounts", authorize, getallaccounts, respond);
+accountRouter.get("/getAllAccounts", getallaccounts, respond);
 accountRouter.get("/", search, respond);
 accountRouter.get("/download", convertToExcel, respond);
 accountRouter.get("/search", getAccount, respond);
